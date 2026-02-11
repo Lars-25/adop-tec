@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso | AdopTec</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <main class="auth-card">
+        <div class="auth-card__header">
+            <i class='bx bx-user-circle auth-card__icon'></i>
+            <h1 class="auth-card__title">Bienvenido Pony</h1>
+            <p class="auth-card__subtitle">Sistema de Autenticación ITM</p>
+        </div>
+
+        <form class="auth-form" action="feed.html">
+            <div class="input-group">
+                <label class="input-group__label">Correo Institucional</label>
+                <div class="input-group__wrapper">
+                    <i class='bx bx-envelope input-group__icon'></i>
+                    <input type="email" class="input-group__field" placeholder="l12121212@morelia.tecnm.mx" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-group__label">Contraseña</label>
+                <div class="input-group__wrapper">
+                    <i class='bx bx-lock-alt input-group__icon'></i>
+                    <input type="password" class="input-group__field" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Ingresar como Pony</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>¿Problemas de acceso? <a href="contacto.html">Contactar Soporte</a></p>
+            <p><a href="../index.html">Volver al inicio</a></p>
+        </div>
+    </main>
+
+</body>
+</html>
