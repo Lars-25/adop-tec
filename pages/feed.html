@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascotas | AdopTec</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <header class="top-bar">
+        <h2 class="top-bar__title">AdopTec</h2>
+        <i class='bx bx-bell'></i>
+    </header>
+
+    <section class="filters">
+        <button class="chip chip--active">Todos</button>
+        <button class="chip"><i class='bx bx-dog'></i> Perros</button>
+        <button class="chip"><i class='bx bx-cat'></i> Gatos</button>
+        <button class="chip chip--urgent"><i class='bx bx-error-circle'></i> Urgente</button>
+    </section>
+
+    <main class="feed-grid">
+        <article class="pet-card">
+            <img src="https://placehold.co/300x300" alt="Perro" class="pet-card__img">
+            <div class="pet-card__body">
+                <h3 class="pet-card__title">Bolillo</h3>
+                <div class="pet-card__meta"><i class='bx bx-map'></i> Edificio K</div>
+                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 2h</div>
+                <button class="pet-card__btn">Ver detalles</button>
+            </div>
+        </article>
+        
+        <article class="pet-card">
+            <img src="https://placehold.co/300x301" alt="Gato" class="pet-card__img">
+            <div class="pet-card__body">
+                <h3 class="pet-card__title">Michi Mecanica</h3>
+                <div class="pet-card__meta"><i class='bx bx-map'></i> Cafetería</div>
+                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 5h</div>
+                <button class="pet-card__btn">Ver detalles</button>
+            </div>
+        </article>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="feed.html" class="nav-item nav-item--active">
+            <i class='bx bx-home-alt-2'></i> Feed
+        </a>
+        <a href="donaciones.html" class="nav-item">
+            <i class='bx bx-donate-heart'></i> Donar
+        </a>
+        <a href="perfil.html" class="nav-item">
+            <i class='bx bx-user'></i> Perfil
+        </a>
+    </nav>
+
+</body>
+</html>
