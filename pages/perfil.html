@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil | AdopTec</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <nav class="nav-bar">
         <a href="feed.html" class="nav-bar__back"><i class='bx bx-arrow-back'></i> Feed</a>
-        <span class="nav-bar__title">Mi Perfil</span>
+        <h2 class="nav-bar__title">Mi Perfil</h2>
     </nav>
 
-    <main class="profile">
+    <main class="profile container">
         <header class="profile-header">
-            <div class="profile-header__avatar">
+            <div class="profile-header__avatar mb-3">
                 <i class='bx bx-user'></i>
             </div>
             <h2 class="profile-header__name">Pony Estudiante</h2>
-            <p class="profile-header__career">Ing. Sistemas Computacionales</p>
+            <p class="profile-header__career text-muted">Ing. Sistemas Computacionales</p>
         </header>
 
         <section class="stats">
@@ -34,15 +36,28 @@
 
         <div class="profile-menu">
             <a href="donaciones.html" class="profile-menu__link">
-                <i class='bx bx-heart'></i> Mis Donaciones
+                <i class='bx bx-heart text-primary' style="font-size: 1.2rem;"></i> Mis Donaciones
             </a>
             <a href="#" class="profile-menu__link">
-                <i class='bx bx-cog'></i> Configuración
+                <i class='bx bx-cog text-primary' style="font-size: 1.2rem;"></i> Configuración
             </a>
             <a href="../index.html" class="profile-menu__link profile-menu__link--danger">
-                <i class='bx bx-log-out'></i> Cerrar Sesión
+                <i class='bx bx-log-out' style="font-size: 1.2rem;"></i> Cerrar Sesión
             </a>
         </div>
     </main>
+
+    <nav class="bottom-nav">
+        <a href="feed.html" class="nav-item">
+            <i class='bx bx-home-alt-2'></i> Feed
+        </a>
+        <a href="donaciones.html" class="nav-item">
+            <i class='bx bx-donate-heart'></i> Donar
+        </a>
+        <a href="perfil.html" class="nav-item nav-item--active">
+            <i class='bx bx-user'></i> Perfil
+        </a>
+    </nav>
+
 </body>
 </html>
