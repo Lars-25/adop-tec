@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/adop-tec/img/icono.ico">
     <title>Mi Perfil | AdopTec</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -23,7 +24,7 @@
             <p class="profile-header__career text-muted">Ing. Sistemas Computacionales</p>
         </header>
 
-        <section class="stats">
+        <div class="stats">
             <div class="stats__item">
                 <span class="stats__number">2</span>
                 <span class="stats__label">Rescates</span>
@@ -32,7 +33,7 @@
                 <span class="stats__number">5</span>
                 <span class="stats__label">Donaciones</span>
             </div>
-        </section>
+        </div>
 
         <div class="profile-menu">
             <a href="donaciones.html" class="profile-menu__link">
@@ -45,6 +46,13 @@
                 <i class='bx bx-log-out' style="font-size: 1.2rem;"></i> Cerrar Sesión
             </a>
         </div>
+        <button class="btn-primary btn-reporte-ful">
+           <i class='bx bx-plus-circle'></i> Publicar Ayuda / Reporte
+        </button>
+
+        <h3 class="profile-subtitle">
+          <i class='bx bx-list-ul'></i> Mis Publicaciones
+        </h3>
     </main>
 
     <nav class="bottom-nav">
@@ -58,6 +66,7 @@
             <i class='bx bx-user'></i> Perfil
         </a>
     </nav>
+    
 
 </body>
 </html>
