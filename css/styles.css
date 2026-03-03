@@ -1,0 +1,614 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Paleta */
+    --primary: #7A1E38;
+    /* Guinda ITM */
+    --primary-hover: #5C1529;
+    --accent: #F2A900;
+    /* Amarillo Pony */
+    --accent-hover: #D99700;
+    --urgent: #e63946;
+
+    /* Fondos y Texto */
+    --bg-light: #F8F9FA;
+    --bg-white: #FFFFFF;
+    --text-dark: #212529;
+    --text-muted: #6C757D;
+    --border-color: #E9ECEF;
+
+    /* UI Elements */
+    --radius-card: 16px;
+    --radius-btn: 12px;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-nav: 0 -2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* =========================================
+   RESETS Y TIPOGRAFÍA
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    line-height: 1.5;
+    padding-bottom: 70px;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Utilidades Base */
+.container {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-accent {
+    color: var(--accent);
+}
+
+.text-muted {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+/* =========================================
+   1. LANDING PAGE E INDEX (.header, .hero, .logo)
+   ========================================= */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-soft);
+}
+
+.header__logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav__list {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav__link {
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav__link:hover {
+    color: var(--primary);
+}
+
+.nav__link--highlight {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.hero {
+    text-align: left;
+    padding: 1rem;
+}
+
+.hero__title {
+    font-size: 3rem;
+    color: var(--primary);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.hero__subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.logo-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+.main-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.layout-image {
+    flex: 1.5;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.img-principal {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.1));
+}
+
+.layout-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* =========================================
+   2. COMPONENTES REUTILIZABLES (Botones, Cards, Forms)
+   ========================================= */
+.card,
+.auth-card {
+    background-color: var(--bg-white);
+    border-radius: var(--radius-card);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.card__title,
+.auth-card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.btn,
+.btn-primary,
+.btn-upload,
+.contact-form__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-btn);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.btn--primary,
+.btn-primary,
+.contact-form__btn {
+    background-color: var(--primary);
+    color: var(--bg-white);
+}
+
+.btn--primary:hover,
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn--outline {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    width: auto;
+}
+
+.form-group,
+.input-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-label,
+.form-group__label,
+.input-group__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+.form-input,
+.form-control,
+.input-group__field,
+.form-group__select,
+.form-group__textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-btn);
+    background-color: var(--bg-light);
+    outline: none;
+    font-family: inherit;
+}
+
+.input-group__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group__icon {
+    position: absolute;
+    left: 10px;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+.input-group__field {
+    padding-left: 2.5rem;
+}
+
+/* =========================================
+   3. APP ZONE (TopBar, BottomNav)
+   ========================================= */
+.top-bar,
+.nav-bar {
+    background-color: var(--bg-white);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-soft);
+}
+
+.top-bar__title,
+.nav-bar__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+}
+
+.top-bar__back,
+.nav-bar__back {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-white);
+    display: flex;
+    justify-content: space-around;
+    padding: 0.6rem 0;
+    box-shadow: var(--shadow-nav);
+    z-index: 100;
+    border-top: 1px solid var(--border-color);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    gap: 0.2rem;
+}
+
+.nav-item i {
+    font-size: 1.6rem;
+}
+
+.nav-item--active {
+    color: var(--primary);
+}
+
+/* =========================================
+   4. VISTA: FEED (.filters, .pet-card)
+   ========================================= */
+.filters {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 1rem;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+.chip {
+    border: 1px solid var(--border-color);
+    background: var(--bg-light);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.chip--active {
+    background: var(--primary);
+    color: white;
+    border-color: transparent;
+}
+
+.chip--urgent {
+    border-color: var(--urgent);
+    color: var(--urgent);
+}
+
+.feed-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.pet-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+}
+
+.pet-card__img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.pet-card__body {
+    padding: 0.8rem;
+}
+
+.pet-card__title {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: var(--primary);
+}
+
+.pet-card__meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.pet-card__btn {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--bg-light);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* =========================================
+   5. VISTA: DONACIONES Y PERFIL
+   ========================================= */
+.header-camp {
+    background: var(--primary);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    margin-bottom: 1.5rem;
+}
+
+.header-camp__title {
+    margin: 0.5rem 0;
+}
+
+.progress-wrapper {
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar__fill {
+    height: 100%;
+    background: var(--accent);
+    display: block;
+    width: 33%;
+    /* Ejemplo de % */
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.profile-header {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.profile-header__avatar i {
+    font-size: 4rem;
+    color: var(--primary);
+    background: var(--bg-white);
+    padding: 1rem;
+    border-radius: 50%;
+    box-shadow: var(--shadow-soft);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg-white);
+    padding: 1rem;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 1.5rem;
+}
+
+.stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stats__number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stats__label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.profile-menu {
+    background: var(--bg-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    padding: 0.5rem 0;
+}
+
+.profile-menu__link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 500;
+}
+
+.profile-menu__link:last-child {
+    border-bottom: none;
+}
+
+.profile-menu__link--danger {
+    color: var(--urgent);
+}
+
+.btn-reporte-full {
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.profile-subtitle {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* =========================================
+   6. ADAPTACION DE DISPOSITIVOS
+   ========================================= */
+@media (max-width: 1024px) {
+    .feed-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .feed-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-layout {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .layout-image,
+    .layout-text {
+        width: 100%;
+        flex: none;
+    }
+
+    .hero {
+        text-align: center;
+    }
+
+    .hero__title {
+        font-size: 2.2rem;
+    }
+
+    .hero__actions {
+        justify-content: center;
+    }
+}

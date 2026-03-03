@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/icono.ico">
+    <title>Donaciones | AdopTec</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+
+    <header class="header-camp">
+        <i class='bx bx-first-aid' style="font-size: 3rem;"></i>
+        <h1 class="header-camp__title">Campaña Esterilización</h1>
+        <p>Meta Global ITM: Febrero 2026</p>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2 class="card__title">Estado de la Meta</h2>
+            <div class="progress-wrapper">
+                <div class="progress-bar">
+                    <span class="progress-bar__fill"></span>
+                </div>
+                <div class="progress-labels">
+                    <span>$5,000 Recaudados</span>
+                    <span>Meta: $15,000</span>
+                </div>
+            </div>
+            <p class="text-muted" style="margin-top: 1rem;">
+                <i class='bx bx-info-circle'></i> Las donaciones se gestionan en caja del Edificio A.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2 class="card__title mb-3">Registrar Gasto (Admin)</h2>
+            <form>
+                <div class="form-group">
+                    <label class="form-group__label">Concepto</label>
+                    <select class="form-control">
+                        <option>Medicamentos</option>
+                        <option>Alimento</option>
+                        <option>Material Curación</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-group__label">Comprobante</label>
+                    <input type="file" class="form-control" style="background: white;">
+                </div>
+                <button type="button" class="btn-upload">
+                    <i class='bx bx-cloud-upload'></i> Subir Evidencia
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="feed.html" class="nav-item">
+            <i class='bx bx-home-alt-2'></i> Feed
+        </a>
+        <a href="donaciones.html" class="nav-item nav-item--active">
+            <i class='bx bx-donate-heart'></i> Donar
+        </a>
+        <a href="perfil.html" class="nav-item">
+            <i class='bx bx-user'></i> Perfil
+        </a>
+    </nav>
+
+</body>
+
+</html>
