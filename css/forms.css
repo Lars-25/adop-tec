@@ -1,0 +1,116 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS PARA FORMULARIOS Y BOTONES
+   ========================================= */
+:root {
+    --radius-btn: 12px;
+}
+
+/* --- BOTONES --- */
+.btn,
+.btn-primary,
+.btn-upload,
+.contact-form__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-btn);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.btn--primary,
+.btn-primary,
+.contact-form__btn {
+    background-color: #7A1E38;
+    color: #FFFFFF;
+}
+
+.btn--primary:hover,
+.btn-primary:hover {
+    background-color: #5C1529;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(122, 30, 56, 0.3);
+}
+
+.btn--outline {
+    background-color: transparent;
+    border: 2px solid #7A1E38;
+    color: #7A1E38;
+    width: auto;
+}
+
+.btn--outline:hover {
+    background-color: #7A1E38;
+    color: #FFFFFF;
+}
+
+.btn--danger {
+    background-color: #e63946;
+    color: white;
+}
+
+.btn--danger:hover {
+    background-color: #c1121f;
+}
+
+/* --- CAMPOS DE ENTRADA (INPUTS) --- */
+.form-group,
+.input-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.form-label,
+.form-group__label,
+.input-group__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #212529;
+}
+
+.form-input,
+.form-control,
+.input-group__field,
+.form-group__select,
+.form-group__textarea {
+    width: 100%;
+    padding: 0.9rem;
+    border: 2px solid #E9ECEF;
+    border-radius: var(--radius-btn);
+    background-color: #F8F9FA;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus,
+.form-group__textarea:focus {
+    border-color: #7A1E38;
+    background-color: #FFFFFF;
+}
+
+/* Input con Iconos (Login) */
+.input-group__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group__icon {
+    position: absolute;
+    left: 12px;
+    color: #6C757D;
+    font-size: 1.2rem;
+}
+
+.input-group__field {
+    padding-left: 2.8rem;
+}
