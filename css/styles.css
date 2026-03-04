@@ -612,3 +612,42 @@ ul {
         justify-content: center;
     }
 }
+
+/* =========================================
+   7. FOOTER (Landing Page y Nosotros)
+   ========================================= */
+.footer-bottom {
+    background-color: var(--bg-white);
+    padding: 2rem 1rem;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    margin-top: 3rem; /* Separa el footer del contenido principal */
+}
+
+.footer-bottom p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.validator-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Efecto profesional: las medallas inician en gris y cobran color al pasar el cursor */
+.validator-badges img {
+    border: none;
+    height: 31px;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.validator-badges img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
