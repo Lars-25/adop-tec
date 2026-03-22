@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../img/icono.ico">
-    <title>Mascotas | AdopTec</title>
+    <title>AdopTec | ITM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/styles.css">
@@ -13,119 +13,55 @@
 
 <body>
 
-    <header class="top-bar">
-        <img src="../img/logo.jpg" alt="Logo AdopTec" class="logo-img">
-        <h2 class="top-bar__title">AdopTec</h2>
-        <i class='bx bx-bell text-primary' style="font-size: 1.4rem;"></i>
-    </header>
+    <div id="app">
+        <header class="top-bar">
+            <img src="../img/logo.jpg" alt="Logo AdopTec" class="logo-img">
+            <h2 class="top-bar__title">AdopTec</h2>
+            <i class='bx bx-bell text-primary' style="font-size: 1.4rem;"></i>
+        </header>
 
-    <nav class="filters">
-        <button class="chip chip--active">Todos</button>
-        <button class="chip"><i class='bx bx-dog'></i> Perros</button>
-        <button class="chip"><i class='bx bx-cat'></i> Gatos</button>
-        <button class="chip chip--urgent"><i class='bx bx-error-circle'></i> Urgente</button>
-    </nav>
-    <main class="feed-grid container">
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400" alt="Perro medio salchicha"
-                class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">Bolillo</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Edificio K</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 2h</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
+        <nav class="filters">
+            <button class="chip" :class="{'chip--active': filtro === 'todos'}" @click="filtro = 'todos'">Todos</button>
+            <button class="chip" :class="{'chip--active': filtro === 'perro'}" @click="filtro = 'perro'"><i
+                    class='bx bx-dog'></i> Perros</button>
+            <button class="chip" :class="{'chip--active': filtro === 'gato'}" @click="filtro = 'gato'"><i
+                    class='bx bx-cat'></i> Gatos</button>
+            <button class="chip chip--urgent" :class="{'chip--active': filtro === 'urgente'}"
+                @click="filtro = 'urgente'"><i class='bx bx-error-circle'></i> Urgente</button>
+        </nav>
+
+        <main class="feed-grid container">
+            <article v-for="perrito in mascotasFiltradas" :key="perrito.id" class="pet-card">
+                <img :src="perrito.img" class="pet-card__img">
+                <div class="pet-card__body">
+                    <h3 class="pet-card__title">{{ perrito.nombre }}</h3>
+                    <div class="pet-card__meta"><i class='bx bx-map'></i> {{ perrito.ubicacion }}</div>
+                    <div class="pet-card__meta"><i class='bx bx-time'></i> {{ perrito.tiempo }}</div>
+                    <button type="button" class="pet-card__btn" @click="abrirDetalles(perrito)">Ver detalles</button>
+                </div>
+            </article>
+        </main>
+
+        <div v-if="perritoSeleccionado" class="modal-overlay" @click.self="perritoSeleccionado = null">
+            <div class="modal-content">
+                <span class="close-modal" @click="perritoSeleccionado = null">&times;</span>
+                <img :src="perritoSeleccionado.img" class="modal-img">
+                <h2 class="text-primary">{{ perritoSeleccionado.nombre }}</h2>
+                <p class="mb-3"><b>Ubicación:</b> {{ perritoSeleccionado.ubicacion }}</p>
+                <p class="text-muted">{{ perritoSeleccionado.descripcion }}</p>
+                <button class="btn-primary mt-3" style="margin-top: 15px;">¡Quiero adoptar!</button>
             </div>
-        </article>
+        </div>
 
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=400" alt="Perro chino"
-                class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">Michi Mecanico</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Cafetería</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 5h</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
+        <nav class="bottom-nav">
+            <a href="feed.html" class="nav-item nav-item--active"><i class='bx bx-home-alt-2'></i> Feed</a>
+            <a href="donaciones.html" class="nav-item"><i class='bx bx-donate-heart'></i> Donar</a>
+            <a href="perfil.html" class="nav-item"><i class='bx bx-user'></i> Perfil</a>
+        </nav>
+    </div>
 
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=400" alt="Perro blanco"
-                class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">El Inge</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Cafeteria roja</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 8h</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
-
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400" alt="Gato blanco con negro"
-                class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">Tecla</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Edificio I</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 12h</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
-
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400" alt="Cachorro pequeño"
-                class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">Pony</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Biblioteca</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 1d</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
-
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400" alt="Gatito con manchas cafes"
-                class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">Gruñonsito</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Edificio O</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 2d</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?w=400&auto=format&fit=crop"
-                alt="Perro grande cafe" class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">Coronel</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Plaza pony</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 5h</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
-
-        <article class="pet-card">
-            <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400&auto=format&fit=crop"
-                alt="Gato cafe negro" class="pet-card__img">
-            <div class="pet-card__body">
-                <h3 class="pet-card__title">El admin</h3>
-                <div class="pet-card__meta"><i class='bx bx-map'></i> Baños del F</div>
-                <div class="pet-card__meta"><i class='bx bx-time'></i> Hace 9h</div>
-                <button type="button" class="pet-card__btn">Ver detalles</button>
-            </div>
-        </article>
-    </main>
-
-    <nav class="bottom-nav">
-        <a href="feed.html" class="nav-item nav-item--active">
-            <i class='bx bx-home-alt-2'></i> Feed
-        </a>
-        <a href="donaciones.html" class="nav-item">
-            <i class='bx bx-donate-heart'></i> Donar
-        </a>
-        <a href="perfil.html" class="nav-item">
-            <i class='bx bx-user'></i> Perfil
-        </a>
-    </nav>
-
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/dinamismo.js"></script>
 </body>
 
 </html>
