@@ -30,3 +30,44 @@ createApp({
         }
     }
 }).mount('#app');
+
+// donaciones.js
+if (document.getElementById('appDonaciones')) {
+    createApp({
+        data() {
+            return {
+                meta: 15000,
+                recaudado: 5000,   
+                pendiente: 0,      
+                montoNuevaDonacion: null,
+                conceptoGasto: 'Medicamentos',
+                archivoComprobante: null,
+                mensajeEstado: ''
+            }
+        },
+        computed: {
+            porcentajeValidado() {
+                return (this.recaudado / this.meta) * 100;
+            },
+            porcentajeTotal() {
+                let total = ((this.recaudado + this.pendiente) / this.meta) * 100;
+                return total > 100 ? 100 : total;
+            }
+        },
+        methods: {
+            archivoSeleccionado(event) {
+                this.archivoComprobante = event.target.files[0];
+            },
+            registrarTodo() {
+                if (this.montoNuevaDonacion && this.montoNuevaDonacion > 0) {
+                    this.pendiente += this.montoNuevaDonacion;
+                    this.mensajeEstado = `Donación de $${this.montoNuevaDonacion} registrada. ¡Acude al Edificio A para validarla!`;
+                    this.montoNuevaDonacion = null;
+                    this.archivoComprobante = null;
+                    const fileInput = document.querySelector('input[type="file"]');
+                    if (fileInput) fileInput.value = '';
+                }
+            }
+        }
+    }).mount('#appDonaciones');
+}
