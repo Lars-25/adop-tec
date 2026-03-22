@@ -678,5 +678,46 @@ ul {
     transform: scale(1.05);
 }
 
+/* --- ESTILOS DEL MODAL ADOPTEC --- */
+.modal-overlay {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.7); 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    z-index: 2000; 
+    padding: 1rem;
+}
 
+.modal-content {
+    background: var(--bg-white); /* Usamos tus variables */
+    padding: 2rem; 
+    border-radius: var(--radius-card);
+    max-width: 500px; 
+    width: 100%; 
+    position: relative; 
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+}
+
+.modal-img { 
+    width: 100%; 
+    height: 250px; 
+    object-fit: cover; 
+    border-radius: var(--radius-btn); 
+    margin-bottom: 1rem; 
+}
+
+.close-modal { 
+    position: absolute; 
+    top: 10px; 
+    right: 15px; 
+    font-size: 2rem; 
+    cursor: pointer; 
+    color: var(--primary); 
+}
 
