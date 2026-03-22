@@ -25,6 +25,10 @@
     --shadow-nav: 0 -2px 10px rgba(0, 0, 0, 0.04);
     --shimmer-effect: rgba(255, 255, 255, 0.3);
     --shimmer-transparent: rgba(255, 255, 255, 0);
+
+    /*Barra*/
+    --status-pending: #e74c3c;  
+    --status-pending-bg: #fdf2f2;
 }
 
 /* =========================================
@@ -577,13 +581,32 @@ ul {
     gap: 0.5rem;
 }
 
-.progress-bar__fill {
-    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+/* Barra de progreso en donaciones */
+.progress-bar {
+    display: flex;
+    height: 24px;
+    background-color: var(--border-color); 
+    border-radius: var(--radius-btn);
     overflow: hidden;
+    position: relative;
 }
 
-.progress-bar__fill::after {
+.progress-bar__fill--validado {
+    background-color: var(--accent); 
+    height: 100%;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+.progress-bar__fill--pendiente {
+    background-color: var(--status-pending);
+    height: 100%;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.progress-bar__fill--validado::after,
+.progress-bar__fill--pendiente::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -594,6 +617,17 @@ ul {
         var(--shimmer-transparent) 100%
     );
     animation: shimmer 2.5s infinite;
+}
+
+.alert-status {
+    background-color: var(--status-pending-bg);
+    border-left: 4px solid var(--status-pending);
+    color: var(--status-pending);
+    padding: 1rem;
+    border-radius: var(--radius-btn);
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    animation: fadeIn 0.4s ease;
 }
 
 @keyframes shimmer {
