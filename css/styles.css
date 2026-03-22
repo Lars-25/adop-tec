@@ -16,6 +16,7 @@
     --text-dark: #212529;
     --text-muted: #6C757D;
     --border-color: #E9ECEF;
+    --modal-overlay: rgba(0,0,0,0.7); 
 
     /* UI Elements */
     --radius-card: 16px;
@@ -647,7 +648,7 @@ ul {
     padding: 2rem 1rem;
     text-align: center;
     border-top: 1px solid var(--border-color);
-    margin-top: 3rem; /* Separa el footer del contenido principal */
+    margin-top: 3rem; 
 }
 
 .footer-bottom p {
@@ -663,7 +664,6 @@ ul {
     align-items: center;
 }
 
-/* Efecto profesional: las medallas inician en gris y cobran color al pasar el cursor */
 .validator-badges img {
     border: none;
     height: 31px;
@@ -678,14 +678,16 @@ ul {
     transform: scale(1.05);
 }
 
-/* --- ESTILOS DEL MODAL ADOPTEC --- */
+/* =========================================
+   8. MODAL (Detalles de mascotas)
+   ========================================= */
 .modal-overlay {
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100%; 
     height: 100%;
-    background: rgba(0,0,0,0.7); 
+    background: var(--modal-overlay); 
     display: flex; 
     justify-content: center;
     align-items: center; 
@@ -694,7 +696,7 @@ ul {
 }
 
 .modal-content {
-    background: var(--bg-white); /* Usamos tus variables */
+    background: var(--bg-white); 
     padding: 2rem; 
     border-radius: var(--radius-card);
     max-width: 500px; 
