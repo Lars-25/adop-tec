@@ -19,42 +19,54 @@
         <p>Meta Global ITM: Febrero 2026</p>
     </header>
 
-    <main class="container">
+    <main class="container" id="appDonaciones">
         <section class="card">
-            <h2 class="card__title">Estado de la Meta</h2>
-            <div class="progress-wrapper">
+            <h2 class="card__title">Estado de la Meta y Registro</h2>
+            
+            <div class="progress-wrapper mb-3">
                 <div class="progress-bar">
-                    <span class="progress-bar__fill"></span>
+                    <div class="progress-bar__fill--validado" :style="{ width: porcentajeValidado + '%' }"></div>
+                    <div class="progress-bar__fill--pendiente" :style="{ width: (porcentajeTotal - porcentajeValidado) + '%' }"></div>
                 </div>
                 <div class="progress-labels">
-                    <span>$5,000 Recaudados</span>
-                    <span>Meta: $15,000</span>
+                    <span>${{ recaudado.toLocaleString() }} Recaudados</span>
+                    <span class="text-pendiente">+ ${{ pendiente.toLocaleString() }} Pendientes</span>
+                    <span>Meta: ${{ meta.toLocaleString() }}</span>
                 </div>
             </div>
-            <p class="text-muted" style="margin-top: 1rem;">
-                <i class='bx bx-info-circle'></i> Las donaciones se gestionan en caja del Edificio A.
-            </p>
-        </section>
 
-        <section class="card">
-            <h2 class="card__title mb-3">Registrar Gasto (Admin)</h2>
-            <form>
-                <div class="form-group">
-                    <label class="form-group__label">Concepto</label>
-                    <select class="form-control">
+            <div v-if="mensajeEstado" class="alert-status">
+                <i class='bx bx-time-five'></i> {{ mensajeEstado }}
+            </div>
+
+            <form @submit.prevent="registrarTodo">
+                <div class="form-group mb-3">
+                    <label class="form-group__label">Monto a donar ($)</label>
+                    <input type="number" v-model.number="montoNuevaDonacion" class="form-control" placeholder="Ej. 100" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-group__label">Concepto (Gasto asociado)</label>
+                    <select class="form-control" v-model="conceptoGasto">
                         <option>Medicamentos</option>
                         <option>Alimento</option>
                         <option>Material Curación</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-group__label">Comprobante</label>
-                    <input type="file" class="form-control" style="background: white;">
+
+                <div class="form-group mb-3">
+                    <label class="form-group__label">Comprobante de pago (Opcional)</label>
+                    <input type="file" class="form-control" @change="archivoSeleccionado">
                 </div>
-                <button type="button" class="btn-upload">
-                    <i class='bx bx-cloud-upload'></i> Subir Evidencia
+
+                <button type="submit" class="btn-upload">
+                    <i class='bx bx-check-circle'></i> Registrar Donación
                 </button>
             </form>
+
+            <p class="text-muted-info">
+                <i class='bx bx-info-circle'></i> Recuerda validar tu pago en la caja del Edificio A.
+            </p>
         </section>
     </main>
 
@@ -70,6 +82,8 @@
         </a>
     </nav>
 
-</body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/dinamismo.js"></script>
 
+</body>
 </html>
