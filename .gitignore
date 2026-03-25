@@ -80,31 +80,13 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
-# Gatsby files
-.cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
-
-# vuepress build output
+# Vuepress / Vitepress / SvelteKit / Docusaurus
 .vuepress/dist
-
-# vuepress v2.x temp and cache directory
 .temp
-.cache
-
-# Sveltekit cache directory
 .svelte-kit/
-
-# vitepress build output
 **/.vitepress/dist
-
-# vitepress cache directory
 **/.vitepress/cache
-
-# Docusaurus cache and generated files
 .docusaurus
 
 # Serverless directories
@@ -138,3 +120,29 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# =======================================================
+# REGLAS ESTRICTAS AÑADIDAS (Bloqueo de NPM, Vite y Vue)
+# =======================================================
+
+# Archivos de configuración de dependencias (NPM/Yarn/Bun)
+package.json
+package-lock.json
+yarn.lock
+bun.lockb
+.npmrc
+
+# Configuraciones de frameworks y empaquetadores (Vite, Vue, JS/TS)
+vite.config.js
+vite.config.ts
+vue.config.js
+jsconfig.json
+tsconfig.json
+tsconfig.node.json
+babel.config.js
+postcss.config.js
+
+# Carpetas de compilación o salida de Vite/Vue
+dist/
+build/
+dist-ssr/
