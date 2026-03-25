@@ -44,7 +44,7 @@ if (document.getElementById('appDonaciones')) {
 
                 this.historial.forEach(d => {
                     if (!agrupados[d.email]) agrupados[d.email] = 0;
-                    agrupados[d.email] += d.monto;
+                    agrupados[d.email] += Number(d.monto);
                 });
 
                 return Object.keys(agrupados)
@@ -72,14 +72,14 @@ if (document.getElementById('appDonaciones')) {
 
                     db.historialDonaciones.push({
                         email: db.sesionActiva ? db.sesionActiva.email : 'Anónimo',
-                        monto: this.montoDonacion,
+                        monto: Number(this.montoDonacion),
                         fecha: new Date().toISOString()
                     });
 
                     saveDB(db);
 
                     this.datos.recaudado = db.donaciones.recaudado;
-                    this.historial = db.historialDonaciones;
+                    this.historial = [...db.historialDonaciones];
 
                     Swal.fire(
                         '¡Gracias!',
@@ -134,7 +134,7 @@ if (document.getElementById('appDonaciones')) {
                     lista.appendChild(li);
                 });
 
-                // Mostrar/ocultar admin
+                //Mostrar/ocultar admin
                 const adminPanel = document.getElementById("adminPanel");
                 adminPanel.style.display = this.rol === "admin" ? "block" : "none";
             }
