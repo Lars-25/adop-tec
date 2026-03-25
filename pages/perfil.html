@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/icono.ico">
     <title>Mi Perfil | AdopTec</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-
 <body>
 
 <nav class="nav-bar">
@@ -17,12 +16,10 @@
 </nav>
 
 <main class="profile container" id="appPerfil">
-
     <header class="profile-header">
         <div class="profile-header__avatar mb-3">
             <i class='bx bx-user'></i>
         </div>
-
         <h2 id="nombreUsuario" class="profile-header__name">Usuario</h2>
         <p id="rolUsuario" class="text-muted">---</p>
     </header>
@@ -32,7 +29,6 @@
             <span id="cantidadDonaciones" class="stats__number">0</span>
             <span class="stats__label">Aportaciones</span>
         </div>
-
         <div class="stats__item">
             <span id="totalDonado" class="stats__number">$0</span>
             <span class="stats__label">Total Donado</span>
@@ -43,34 +39,36 @@
         <a href="#" id="btnHistorial" class="profile-menu__link">
             <i class='bx bx-heart text-primary'></i> Ver Historial de Donaciones
         </a>
-
         <a href="#" class="profile-menu__link">
             <i class='bx bx-cog text-primary'></i> Configuración
         </a>
-
         <a href="#" id="btnLogout" class="profile-menu__link profile-menu__link--danger">
             <i class='bx bx-log-out'></i> Cerrar Sesión
         </a>
     </div>
 
     <div style="text-align: center; margin: 2rem 0;">
-        <a href="formulario-mascota.html" class="btn btn--primary">
+        <a href="formulario-mascota.html" class="btn btn--primary" style="width: auto; border-radius: 50px;">
             <i class='bx bx-plus-circle'></i> Publicar Ayuda / Reporte
         </a>
     </div>
-
 </main>
 
 <nav class="bottom-nav">
-    <a href="feed.html" class="nav-item"><i class='bx bx-home-alt-2'></i> Feed</a>
-    <a href="donaciones.html" class="nav-item"><i class='bx bx-donate-heart'></i> Donar</a>
-    <a href="perfil.html" class="nav-item nav-item--active"><i class='bx bx-user'></i> Perfil</a>
+    <a href="feed.html" class="nav-item">
+        <i class='bx bx-home-alt-2'></i> Feed
+    </a>
+    <a href="donaciones.html" class="nav-item">
+        <i class='bx bx-donate-heart'></i> Donar
+    </a>
+    <a href="perfil.html" class="nav-item nav-item--active">
+        <i class='bx bx-user'></i> Perfil
+    </a>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="../js/store.js"></script>
 <script src="../js/perfil.js"></script>
-
 </body>
 </html>

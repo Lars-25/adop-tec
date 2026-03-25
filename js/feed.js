@@ -8,7 +8,6 @@ if (document.getElementById('appFeed')) {
                 mascotas: []
             }
         },
-
         mounted() {
             const { getDB } = useStore();
             this.mascotas = getDB().mascotas;
@@ -26,7 +25,6 @@ if (document.getElementById('appFeed')) {
 
             this.renderUI();
         },
-
         computed: {
             mascotasFiltradas() {
                 let filtradas =
@@ -40,9 +38,7 @@ if (document.getElementById('appFeed')) {
                 }));
             }
         },
-
         methods: {
-
             abrirDetalles(perro) {
                 document.getElementById("modal").style.display = "flex";
                 document.getElementById("modalImg").src = perro.img;
@@ -51,10 +47,18 @@ if (document.getElementById('appFeed')) {
                 document.getElementById("modalUbicacion").textContent = perro.ubicacion;
                 document.getElementById("modalDescripcion").textContent = perro.descripcion;
             },
-
             renderUI() {
                 const container = document.getElementById("feedContainer");
                 container.innerHTML = "";
+
+                // Resaltado visual de filtros activos
+                const botones = ["filtroTodos", "filtroPerro", "filtroGato", "filtroUrgente"];
+                botones.forEach(btn => document.getElementById(btn).classList.remove("chip--active"));
+                
+                let btnId = this.filtro === 'todos' ? 'filtroTodos' : 
+                            this.filtro === 'perro' ? 'filtroPerro' : 
+                            this.filtro === 'gato' ? 'filtroGato' : 'filtroUrgente';
+                document.getElementById(btnId).classList.add("chip--active");
 
                 this.mascotasFiltradas.forEach(perrito => {
                     const card = document.createElement("article");
@@ -62,18 +66,14 @@ if (document.getElementById('appFeed')) {
 
                     card.innerHTML = `
                         <img src="${perrito.img}" alt="Mascota" class="pet-card__img">
-
                         <div class="pet-card__body">
                             <h3 class="pet-card__title">${perrito.nombre}</h3>
-
                             <div class="pet-card__meta">
                                 <i class='bx bx-map'></i> ${perrito.ubicacion}
                             </div>
-
                             <div class="pet-card__meta">
                                 <i class='bx bx-time'></i> ${perrito.tiempoFormat}
                             </div>
-
                             <button class="pet-card__btn">Ver detalles</button>
                         </div>
                     `;
@@ -86,6 +86,5 @@ if (document.getElementById('appFeed')) {
                 });
             }
         }
-
     }).mount('#appFeed');
 }

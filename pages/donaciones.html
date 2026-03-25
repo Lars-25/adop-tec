@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../img/icono.ico">
     <title>Donaciones | AdopTec</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/forms.css">
 </head>
-
 <body>
 <div id="appDonaciones">
 
@@ -23,24 +19,15 @@
     </header>
 
     <main class="container">
-
         <section class="card">
             <h2 class="card__title">Estado de la Meta</h2>
-
-            <div class="progress-wrapper mb-3" style="background: #eee; height: 20px; border-radius: 10px;">
+            <div class="progress-wrapper mb-3" style="background: #E9ECEF; height: 20px; border-radius: 10px;">
                 <div id="barraProgreso" style="height: 100%; border-radius: 10px;"></div>
             </div>
-
             <p id="metaTexto"></p>
-
             <form id="formDonacion" style="margin-top: 1rem;">
-                <input type="number" id="montoDonacion"
-                       class="form-input mb-3"
-                       placeholder="Monto a donar ($)" required>
-
-                <button type="submit" class="btn btn--primary">
-                    Registrar mi donación
-                </button>
+                <input type="number" id="montoDonacion" class="form-input mb-3" placeholder="Monto a donar ($)" required>
+                <button type="submit" class="btn btn--primary">Registrar mi donación</button>
             </form>
         </section>
 
@@ -48,13 +35,11 @@
             <h2 class="card__title mb-3" style="display: flex; align-items: center; gap: 0.5rem;">
                 <i class='bx bxs-trophy' style="color: #F2A900;"></i> Mayores Donadores
             </h2>
-
             <ul id="topDonadores" style="list-style: none; padding: 0;"></ul>
         </section>
 
         <section class="card" id="adminPanel">
             <h2 class="card__title mb-3">Registrar Gasto (Admin)</h2>
-
             <form id="formGasto">
                 <div class="form-group">
                     <label class="form-group__label">Concepto</label>
@@ -64,31 +49,24 @@
                         <option>Material Curación</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label class="form-group__label">Comprobante</label>
-                    <input type="file" name="comprobante"
-                           class="form-control"
-                           style="background: white;" required>
+                    <input type="file" name="comprobante" class="form-control" style="background: white;" required>
                 </div>
-
-                <button type="submit" class="btn-upload btn--danger">
+                <button type="submit" class="btn btn--danger w-100">
                     <i class='bx bx-cloud-upload'></i> Subir Evidencia
                 </button>
             </form>
         </section>
-
     </main>
 
     <nav class="bottom-nav">
         <a href="feed.html" class="nav-item">
             <i class='bx bx-home-alt-2'></i> Feed
         </a>
-
         <a href="donaciones.html" class="nav-item nav-item--active">
             <i class='bx bx-donate-heart'></i> Donar
         </a>
-
         <a href="perfil.html" class="nav-item">
             <i class='bx bx-user'></i> Perfil
         </a>
@@ -100,6 +78,5 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="../js/store.js"></script>
 <script src="../js/donaciones.js"></script>
-
 </body>
 </html>

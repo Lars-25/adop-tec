@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/icono.ico">
     <title>Reporte | AdopTec</title>
-
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/forms.css">
 </head>
-
 <body>
 
 <nav class="nav-bar">
@@ -20,19 +18,15 @@
 </nav>
 
 <main class="container" id="appForm" style="max-width: 600px; padding-top: 2rem;">
-
     <div class="card">
         <h2 class="card__title mb-4">
             <i class='bx bx-edit'></i> Detalles
         </h2>
-
         <form id="formReporte">
-
             <div class="form-group">
                 <label class="form-label">Nombre</label>
                 <input id="nombre" type="text" class="form-input" placeholder="Ej: Firulais">
             </div>
-
             <div class="form-group">
                 <label class="form-label">Especie</label>
                 <select id="especie" class="form-input">
@@ -40,39 +34,35 @@
                     <option value="gato">Gato</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Ubicación</label>
                 <input id="ubicacion" type="text" class="form-input" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Descripción</label>
                 <textarea id="descripcion" class="form-input" rows="4" required></textarea>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Fotografía</label>
-                <input id="imagen"
-                       type="file"
-                       class="form-input"
-                       style="background: white;"
-                       accept="image/*">
+                <input id="imagen" type="file" class="form-input" style="background: white;" accept="image/*">
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #e63946;">
+                    <input type="checkbox" id="urgente" style="width: auto; transform: scale(1.2);"> Marcar como caso Urgente
+                </label>
             </div>
 
             <button type="submit" class="btn btn--primary">
                 <i class='bx bx-check-circle'></i> Publicar Alta
             </button>
-
         </form>
     </div>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="../js/store.js"></script>
 <script src="../js/formulario.js"></script>
-
 </body>
 </html>
