@@ -3,67 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../img/icono.ico">
     <title>Mascotas | AdopTec</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
+
 <body>
-    <div id="appFeed">
-        <header class="top-bar">
-            <h2 class="top-bar__title">AdopTec</h2>
-            <i class='bx bx-bell text-primary' style="font-size: 1.4rem;"></i>
-        </header>
+<div id="appFeed">
 
-        <nav class="filters" style="display: flex; gap: 0.5rem; overflow-x: auto; padding: 1rem;">
-            <button class="chip" :class="{'chip--active': filtro === 'todos'}" @click="filtro = 'todos'">Todos</button>
-            <button class="chip" :class="{'chip--active': filtro === 'perro'}" @click="filtro = 'perro'"><i class='bx bx-dog'></i> Perros</button>
-            <button class="chip" :class="{'chip--active': filtro === 'gato'}" @click="filtro = 'gato'"><i class='bx bx-cat'></i> Gatos</button>
-            <button class="chip" :class="{'chip--urgent': filtro === 'urgente'}" @click="filtro = 'urgente'"><i class='bx bx-error-circle'></i> Urgentes</button>
-        </nav>
+    <header class="top-bar">
+        <h2 class="top-bar__title">AdopTec</h2>
+        <i class='bx bx-bell text-primary' style="font-size: 1.4rem;"></i>
+    </header>
 
-        <main class="feed-grid container">
-            <article class="pet-card" v-for="perrito in mascotasFiltradas" :key="perrito.id">
-                <img :src="perrito.img" alt="Foto Mascota" class="pet-card__img">
-                <div class="pet-card__body">
-                    <h3 class="pet-card__title">{{ perrito.nombre }}</h3>
-                    <div class="pet-card__meta"><i class='bx bx-map'></i> {{ perrito.ubicacion }}</div>
-                    <div class="pet-card__meta"><i class='bx bx-time'></i> {{ perrito.tiempoFormat }}</div>
-                    <button type="button" class="pet-card__btn" @click="abrirDetalles(perrito)">Ver detalles</button>
-                </div>
-            </article>
-        </main>
+    <nav class="filters" style="display: flex; gap: 0.5rem; overflow-x: auto; padding: 1rem;">
+        <button class="chip" id="filtroTodos">Todos</button>
+        <button class="chip" id="filtroPerro"><i class='bx bx-dog'></i> Perros</button>
+        <button class="chip" id="filtroGato"><i class='bx bx-cat'></i> Gatos</button>
+        <button class="chip" id="filtroUrgente"><i class='bx bx-error-circle'></i> Urgentes</button>
+    </nav>
 
-        <div v-if="perritoSeleccionado" class="modal-overlay" @click.self="perritoSeleccionado = null">
-            <div class="modal-content card" style="max-width: 400px; width: 90%; max-height: 85vh; display: flex; flex-direction: column; margin: auto; padding: 1.5rem;">
-                <img :src="perritoSeleccionado.img" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
-                
-                <div style="overflow-y: auto; margin-top: 1rem; flex-grow: 1; text-align: left;">
-                    <h2 class="text-primary">{{ perritoSeleccionado.nombre }}</h2>
-                    <p class="mb-2"><b><i class='bx bx-map'></i> Ubicación:</b> {{ perritoSeleccionado.ubicacion }}</p>
-                    <p class="text-muted">{{ perritoSeleccionado.descripcion }}</p>
-                </div>
+    <main id="feedContainer" class="feed-grid container"></main>
 
-                <div style="margin-top: 1.5rem;">
-                    <a href="donaciones.html" class="btn btn--primary" style="margin-bottom: 0.5rem; text-decoration: none; display: block; text-align: center;">
-                        <i class='bx bx-donate-heart'></i> ¡Donar a esta mascota!
-                    </a>
-                    <button class="btn btn--outline" @click="perritoSeleccionado = null" style="width: 100%;">Cerrar</button>
-                </div>
-            </div>
+<div id="modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content card" style="max-width: 400px; width: 90%; max-height: 85vh; display: flex; flex-direction: column; margin: auto; padding: 1.5rem;">
+        
+        <img id="modalImg"
+             src="../img/placeholder.jpg"
+             alt="Imagen de mascota"
+             style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+
+        <div style="overflow-y: auto; margin-top: 1rem; flex-grow: 1; text-align: left;">
+            <h2 id="modalNombre" class="text-primary">Mascota</h2>
+
+            <p class="mb-2">
+                <strong><i class='bx bx-map'></i> Ubicación:</strong>
+                <span id="modalUbicacion">---</span>
+            </p>
+
+            <p id="modalDescripcion" class="text-muted">
+                Descripción de la mascota
+            </p>
         </div>
 
-        <nav class="bottom-nav">
-            <a href="feed.html" class="nav-item nav-item--active"><i class='bx bx-home-alt-2'></i> Feed</a>
-            <a href="donaciones.html" class="nav-item"><i class='bx bx-donate-heart'></i> Donar</a>
-            <a href="perfil.html" class="nav-item"><i class='bx bx-user'></i> Perfil</a>
-        </nav>
-    </div>
+        <div style="margin-top: 1.5rem;">
+            <a href="donaciones.html"
+               class="btn btn--primary"
+               style="margin-bottom: 0.5rem; text-decoration: none; display: block; text-align: center;">
+               
+               <i class='bx bx-donate-heart'></i> ¡Donar a esta mascota!
+            </a>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="../js/store.js"></script>
-    <script src="../js/feed.js"></script>
+            <button id="cerrarModal"
+                    class="btn btn--outline"
+                    style="width: 100%;">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+    <nav class="bottom-nav">
+        <a href="feed.html" class="nav-item">
+            <i class='bx bx-home-alt-2'></i> Feed
+        </a>
+
+        <a href="donaciones.html" class="nav-item nav-item--active">
+            <i class='bx bx-donate-heart'></i> Donar
+        </a>
+
+        <a href="perfil.html" class="nav-item">
+            <i class='bx bx-user'></i> Perfil
+        </a>
+    </nav>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/feed.js"></script>
 </body>
 </html>
