@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,24 +9,22 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-
 <body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
 
-    <main class="container" style="width: 100%; max-width: 400px;">
+    <main id="appLogin" class="container" style="width: 100%; max-width: 400px;">
         <div class="auth-card text-center" style="margin-bottom: 0;">
             <div class="auth-card__header mb-4">
                 <i class='bx bx-user-circle auth-card__icon text-primary' style="font-size: 4rem;"></i>
-                <h1 class="auth-card__title">Bienvenido Pony</h1>
+                <h1 class="auth-card__title">Bienvenido</h1>
                 <p class="auth-card__subtitle text-muted">Sistema de Autenticación ITM</p>
             </div>
 
-            <form class="auth-form" action="feed.html">
+            <form class="auth-form" @submit.prevent="iniciarSesion">
                 <div class="input-group">
                     <label class="input-group__label">Correo Institucional</label>
                     <div class="input-group__wrapper">
                         <i class='bx bx-envelope input-group__icon'></i>
-                        <input type="email" class="input-group__field" placeholder="l12121212@morelia.tecnm.mx"
-                            required>
+                        <input type="email" v-model="email" class="input-group__field" placeholder="ejemplo@morelia.tecnm.mx" required>
                     </div>
                 </div>
 
@@ -35,22 +32,22 @@
                     <label class="input-group__label">Contraseña</label>
                     <div class="input-group__wrapper">
                         <i class='bx bx-lock-alt input-group__icon'></i>
-                        <input type="password" class="input-group__field" placeholder="••••••••" required>
+                        <input type="password" v-model="password" class="input-group__field" placeholder="••••••••" required>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-primary">Ingresar como Pony</button>
+                <button type="submit" class="btn-primary">Ingresar</button>
             </form>
 
             <div class="auth-footer mt-4" style="margin-top: 1.5rem; font-size: 0.85rem;">
-                <p class="text-muted">¿Problemas de acceso? <a href="nosotros.html" class="text-primary">Contactar
-                        Soporte</a></p>
-                <p class="mt-2"><a href="../index.html" class="text-muted"><i class='bx bx-arrow-back'></i> Volver al
-                        inicio</a></p>
+                <p class="mt-2"><a href="../index.html" class="text-muted"><i class='bx bx-arrow-back'></i> Volver al inicio</a></p>
             </div>
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../js/store.js"></script>
+    <script src="../js/login.js"></script>
 </body>
-
 </html>

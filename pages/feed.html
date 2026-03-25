@@ -1,58 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../img/icono.ico">
-    <title>AdopTec | ITM</title>
+    <title>Mascotas | AdopTec</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-
 <body>
-
-    <div id="app">
+    <div id="appFeed">
         <header class="top-bar">
-            <img src="../img/logo.jpg" alt="Logo AdopTec" class="logo-img">
             <h2 class="top-bar__title">AdopTec</h2>
             <i class='bx bx-bell text-primary' style="font-size: 1.4rem;"></i>
         </header>
 
-        <nav class="filters">
+        <nav class="filters" style="display: flex; gap: 0.5rem; overflow-x: auto; padding: 1rem;">
             <button class="chip" :class="{'chip--active': filtro === 'todos'}" @click="filtro = 'todos'">Todos</button>
-            <button class="chip" :class="{'chip--active': filtro === 'perro'}" @click="filtro = 'perro'"><i
-                    class='bx bx-dog'></i> Perros</button>
-            <button class="chip" :class="{'chip--active': filtro === 'gato'}" @click="filtro = 'gato'"><i
-                    class='bx bx-cat'></i> Gatos</button>
-            <button class="chip chip--urgent" :class="{'chip--active': filtro === 'urgente'}"
-                @click="filtro = 'urgente'"><i class='bx bx-error-circle'></i> Urgente</button>
+            <button class="chip" :class="{'chip--active': filtro === 'perro'}" @click="filtro = 'perro'"><i class='bx bx-dog'></i> Perros</button>
+            <button class="chip" :class="{'chip--active': filtro === 'gato'}" @click="filtro = 'gato'"><i class='bx bx-cat'></i> Gatos</button>
+            <button class="chip" :class="{'chip--urgent': filtro === 'urgente'}" @click="filtro = 'urgente'"><i class='bx bx-error-circle'></i> Urgentes</button>
         </nav>
 
         <main class="feed-grid container">
-            <article v-for="perrito in mascotasFiltradas" :key="perrito.id" class="pet-card">
-                <img :src="perrito.img" class="pet-card__img">
+            <article class="pet-card" v-for="perrito in mascotasFiltradas" :key="perrito.id">
+                <img :src="perrito.img" alt="Foto Mascota" class="pet-card__img">
                 <div class="pet-card__body">
                     <h3 class="pet-card__title">{{ perrito.nombre }}</h3>
                     <div class="pet-card__meta"><i class='bx bx-map'></i> {{ perrito.ubicacion }}</div>
-                    <div class="pet-card__meta"><i class='bx bx-time'></i> {{ perrito.tiempo }}</div>
+                    <div class="pet-card__meta"><i class='bx bx-time'></i> {{ perrito.tiempoFormat }}</div>
                     <button type="button" class="pet-card__btn" @click="abrirDetalles(perrito)">Ver detalles</button>
                 </div>
             </article>
         </main>
 
         <div v-if="perritoSeleccionado" class="modal-overlay" @click.self="perritoSeleccionado = null">
-            <div class="modal-content">
-                <span class="close-modal" @click="perritoSeleccionado = null">&times;</span>
-                <img :src="perritoSeleccionado.img" class="modal-img">
-                <h2 class="text-primary">{{ perritoSeleccionado.nombre }}</h2>
-                <p class="mb-3"><b>Ubicación:</b> {{ perritoSeleccionado.ubicacion }}</p>
-                <p class="text-muted">{{ perritoSeleccionado.descripcion }}</p>
-                <a href="donaciones.html" class="btn-primary"
-                    style="display: block; text-align: center; text-decoration: none; margin-top: 15px;">
-                    ¡Ayudar con una donación!
-                </a>
+            <div class="modal-content card" style="max-width: 400px; width: 90%; max-height: 85vh; display: flex; flex-direction: column; margin: auto; padding: 1.5rem;">
+                <img :src="perritoSeleccionado.img" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+                
+                <div style="overflow-y: auto; margin-top: 1rem; flex-grow: 1; text-align: left;">
+                    <h2 class="text-primary">{{ perritoSeleccionado.nombre }}</h2>
+                    <p class="mb-2"><b><i class='bx bx-map'></i> Ubicación:</b> {{ perritoSeleccionado.ubicacion }}</p>
+                    <p class="text-muted">{{ perritoSeleccionado.descripcion }}</p>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <a href="donaciones.html" class="btn btn--primary" style="margin-bottom: 0.5rem; text-decoration: none; display: block; text-align: center;">
+                        <i class='bx bx-donate-heart'></i> ¡Donar a esta mascota!
+                    </a>
+                    <button class="btn btn--outline" @click="perritoSeleccionado = null" style="width: 100%;">Cerrar</button>
+                </div>
             </div>
         </div>
 
@@ -63,8 +61,9 @@
         </nav>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="/dinamismo.js"></script>
+    <script src="../js/store.js"></script>
+    <script src="../js/feed.js"></script>
 </body>
-
 </html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,81 +8,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/forms.css">
 </head>
-
-<body>
+<body id="appDonaciones">
 
     <header class="header-camp">
         <i class='bx bx-first-aid' style="font-size: 3rem;"></i>
         <h1 class="header-camp__title">Campaña Esterilización</h1>
-        <p>Meta Global ITM: Febrero 2026</p>
+        <p style="text-transform: capitalize;">Meta Global ITM: {{ mesActual }}</p>
     </header>
 
-    <main class="container" id="appDonaciones">
+    <main class="container">
         <section class="card">
             <h2 class="card__title">Estado de la Meta</h2>
+            <div class="progress-wrapper mb-3" style="background: #eee; height: 20px; border-radius: 10px;">
+                <div :style="{ width: porcentaje + '%', background: 'var(--accent)', height: '100%', borderRadius: '10px', transition: 'width 0.5s ease' }"></div>
+            </div>
+            <p><b>${{ datos.recaudado }}</b> de ${{ datos.meta }}</p>
             
-            <div class="progress-wrapper mb-3">
-                <div class="progress-bar">
-                    <div class="progress-bar__fill--validado" :style="{ width: porcentajeValidado + '%' }"></div>
-                    <div class="progress-bar__fill--pendiente" :style="{ width: (porcentajeTotal - porcentajeValidado) + '%' }"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>${{ recaudado.toLocaleString() }} Recaudados</span>
-                    <span class="text-pendiente">+ ${{ pendiente.toLocaleString() }} Pendientes</span>
-                    <span>Meta: ${{ meta.toLocaleString() }}</span>
-                </div>
-            </div>
+            <form @submit.prevent="donar" style="margin-top: 1rem;">
+                <input type="number" v-model="montoDonacion" class="form-input mb-3" placeholder="Monto a donar ($)" required>
+                <button type="submit" class="btn btn--primary">Registrar mi donación</button>
+            </form>
+        </section>
 
-            <div v-if="mensajeEstado" class="alert-status">
-                <i class='bx bx-time-five'></i> {{ mensajeEstado }}
-            </div>
+        <section class="card mb-4">
+            <h2 class="card__title mb-3" style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class='bx bxs-trophy' style="color: #F2A900;"></i> Mayores Donadores
+            </h2>
+            <ul style="list-style: none; padding: 0;">
+                <li v-for="(donador, index) in topDonadores" :key="index" style="display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color);">
+                    <span style="font-weight: 500; text-transform: capitalize;">
+                        <span style="color: var(--text-muted); margin-right: 0.5rem;">#{{ index + 1 }}</span> 
+                        {{ donador.nombre }}
+                    </span>
+                    <span class="text-primary" style="font-weight: 700;">${{ donador.monto }}</span>
+                </li>
+            </ul>
+        </section>
 
-            <form @submit.prevent="registrarTodo">
-                <div class="form-group mb-3">
-                    <label class="form-group__label">Monto a donar ($)</label>
-                    <input type="number" v-model.number="montoNuevaDonacion" class="form-control" placeholder="Ej. 100" required>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-group__label">Concepto (Gasto asociado)</label>
+        <section class="card" v-if="rol === 'admin'">
+            <h2 class="card__title mb-3">Registrar Gasto (Admin)</h2>
+            <form @submit.prevent="registrarGasto">
+                <div class="form-group">
+                    <label class="form-group__label">Concepto</label>
                     <select class="form-control" v-model="conceptoGasto">
                         <option>Medicamentos</option>
                         <option>Alimento</option>
                         <option>Material Curación</option>
                     </select>
                 </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-group__label">Comprobante de pago</label>
-                    <input type="file" class="form-control" @change="archivoSeleccionado">
+                <div class="form-group">
+                    <label class="form-group__label">Comprobante</label>
+                    <input type="file" class="form-control" style="background: white;" required>
                 </div>
-
-                <button type="submit" class="btn-upload">
-                    <i class='bx bx-check-circle'></i> Registrar Donación
-                </button>
+                <button type="submit" class="btn-upload btn--danger"><i class='bx bx-cloud-upload'></i> Subir Evidencia</button>
             </form>
-
-            <p class="text-muted-info">
-                <i class='bx bx-info-circle'></i> Recuerda validar tu pago en la caja del Edificio A.
-            </p>
         </section>
     </main>
 
     <nav class="bottom-nav">
-        <a href="feed.html" class="nav-item">
-            <i class='bx bx-home-alt-2'></i> Feed
-        </a>
-        <a href="donaciones.html" class="nav-item nav-item--active">
-            <i class='bx bx-donate-heart'></i> Donar
-        </a>
-        <a href="perfil.html" class="nav-item">
-            <i class='bx bx-user'></i> Perfil
-        </a>
+        <a href="feed.html" class="nav-item"><i class='bx bx-home-alt-2'></i> Feed</a>
+        <a href="donaciones.html" class="nav-item nav-item--active"><i class='bx bx-donate-heart'></i> Donar</a>
+        <a href="perfil.html" class="nav-item"><i class='bx bx-user'></i> Perfil</a>
     </nav>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="/dinamismo.js"></script>
-
+    <script src="../js/store.js"></script>
+    <script src="../js/donaciones.js"></script>
 </body>
 </html>
