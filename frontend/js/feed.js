@@ -8,9 +8,9 @@ if (document.getElementById('appFeed')) {
                 mascotas: []
             }
         },
-        mounted() {
-            const { getDB } = useStore();
-            this.mascotas = getDB().mascotas;
+        async mounted() {
+            // Cargar datos desde el backend en vez del mock local
+            await this.cargarMascotas();
 
             // Eventos filtros
             document.getElementById("filtroTodos").onclick = () => { this.filtro = 'todos'; this.renderUI(); };
@@ -22,29 +22,47 @@ if (document.getElementById('appFeed')) {
             document.getElementById("cerrarModal").onclick = () => {
                 document.getElementById("modal").style.display = "none";
             };
-
-            this.renderUI();
         },
         computed: {
             mascotasFiltradas() {
                 let filtradas =
                     this.filtro === 'todos' ? this.mascotas :
-                    this.filtro === 'urgente' ? this.mascotas.filter(m => m.urgente) :
-                    this.mascotas.filter(m => m.tipo === this.filtro);
+                    this.filtro === 'urgente' ? this.mascotas.filter(m => m.estado === 'urgente' || m.urgente) :
+                    this.mascotas.filter(m => m.especie && m.especie.toLowerCase() === this.filtro);
 
                 return filtradas.map(m => ({
                     ...m,
-                    tiempoFormat: calcularTiempo(m.fecha)
+                    tiempoFormat: calcularTiempo(m.fecha_reporte || m.fecha || new Date().toISOString())
                 }));
             }
         },
         methods: {
+            async cargarMascotas() {
+                try {
+                    const response = await fetch('http://localhost:3000/api/pets');
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        this.mascotas = data.data;
+                        this.renderUI(); // Renderizamos una vez que llegan los datos
+                    }
+                } catch (error) {
+                    console.error('Error al cargar las mascotas:', error);
+                    Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
+                }
+            },
             abrirDetalles(perro) {
                 document.getElementById("modal").style.display = "flex";
-                document.getElementById("modalImg").src = perro.img;
+                document.getElementById("modalImg").src = perro.imagen_url || perro.img || 'https://placehold.co/400x300?text=Sin+Imagen';
                 document.getElementById("modalImg").alt = "Foto de " + perro.nombre;
                 document.getElementById("modalNombre").textContent = perro.nombre;
-                document.getElementById("modalUbicacion").textContent = perro.ubicacion;
+                
+                // Si la ubicación no viene explícita (ya que está en descripción), la indicamos
+                let domUbicacion = document.getElementById("modalUbicacion");
+                if (domUbicacion) {
+                    domUbicacion.textContent = perro.ubicacion || 'Revisar descripción';
+                }
+                
                 document.getElementById("modalDescripcion").textContent = perro.descripcion;
             },
             renderUI() {
@@ -64,12 +82,14 @@ if (document.getElementById('appFeed')) {
                     const card = document.createElement("article");
                     card.className = "pet-card";
 
+                    const imagen = perrito.imagen_url || perrito.img || 'https://placehold.co/400x300?text=Sin+Imagen';
+
                     card.innerHTML = `
-                        <img src="${perrito.img}" alt="Mascota" class="pet-card__img">
+                        <img src="${imagen}" alt="Mascota" class="pet-card__img">
                         <div class="pet-card__body">
                             <h3 class="pet-card__title">${perrito.nombre}</h3>
                             <div class="pet-card__meta">
-                                <i class='bx bx-map'></i> ${perrito.ubicacion}
+                                <i class='bx bx-map'></i> ${perrito.ubicacion || 'Local'}
                             </div>
                             <div class="pet-card__meta">
                                 <i class='bx bx-time'></i> ${perrito.tiempoFormat}

@@ -5,24 +5,23 @@ if (document.getElementById('appPerfil')) {
         data() {
             return {
                 usuario: { nombre: '', email: '', rol: '' },
-                misDonaciones: []
+                misDonaciones: [] // Se conectará al backend en la fase MercadoPago
             }
         },
         mounted() {
-            const { getDB } = useStore();
-            const db = getDB();
+            // Leer desde localStorage
+            const token = localStorage.getItem('adoptec_token');
+            const userStr = localStorage.getItem('adoptec_user');
 
-            if (!db.sesionActiva) {
+            if (!token || !userStr) {
                 window.location.href = 'login.html';
                 return;
             }
 
-            this.usuario = db.sesionActiva;
+            this.usuario = JSON.parse(userStr);
 
-            if (db.historialDonaciones) {
-                this.misDonaciones = db.historialDonaciones
-                    .filter(d => d.email === this.usuario.email);
-            }
+            // TODO: Las donaciones se cargarán por fetch en la siguiente fase
+            this.misDonaciones = [];
 
             this.renderUI();
 
@@ -53,7 +52,7 @@ if (document.getElementById('appPerfil')) {
             },
             verHistorial() {
                 if (this.cantidadDonaciones === 0) {
-                    Swal.fire('Sin donaciones', 'Aún no tienes donaciones.', 'info');
+                    Swal.fire('Sin donaciones', 'Aún no tienes donaciones registradas.', 'info');
                     return;
                 }
 
@@ -70,11 +69,10 @@ if (document.getElementById('appPerfil')) {
                 });
             },
             cerrarSesion() {
-                const { getDB, saveDB } = useStore();
-                let db = getDB();
-                db.sesionActiva = null;
-                saveDB(db);
-                window.location.href = '../index.html';
+                // Eliminar token y datos de localStorage
+                localStorage.removeItem('adoptec_token');
+                localStorage.removeItem('adoptec_user');
+                window.location.href = '../index.html'; // Redirige a la portada
             }
         }
     }).mount('#appPerfil');
