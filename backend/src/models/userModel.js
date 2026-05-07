@@ -1,27 +1,17 @@
 const db = require('../config/database');
 
-/**
- * Busca un usuario por su correo electrónico.
- * Útil para Login y para verificar si un email ya está registrado en Register.
- * 
- * @param {string} email - El correo del usuario a buscar.
- * @returns {Object|null} El usuario encontrado o null.
- */
+
+//Buscar un usuario por su correo electrónico.
+
 const findByEmail = async (email) => {
   const query = 'SELECT * FROM users WHERE email = $1';
   const result = await db.query(query, [email]);
-  return result.rows[0]; // Retorna el objeto usuario o undefined
+  return result.rows[0]; 
 };
 
-/**
- * Inserta un nuevo usuario en la base de datos.
- * 
- * @param {string} nombre - Nombre del usuario.
- * @param {string} email - Correo del usuario.
- * @param {string} passwordHash - Contraseña ya cifrada con bcrypt.
- * @param {string} rol - Rol del usuario (por defecto 'user').
- * @returns {Object} El usuario recién creado (sin el password_hash).
- */
+
+ //Insertar un nuevo usuario en la base de datos.
+
 const createUser = async (nombre, email, passwordHash, rol = 'user') => {
   const query = `
     INSERT INTO users (nombre, email, password_hash, rol)
@@ -32,7 +22,29 @@ const createUser = async (nombre, email, passwordHash, rol = 'user') => {
   return result.rows[0];
 };
 
+//Actualizar los datos 
+const updateUser = async (id, nombre, email) => {
+  const query = `
+    UPDATE users 
+    SET nombre = $1, email = $2 
+    WHERE id = $3 
+    RETURNING id, nombre, email, rol
+  `;
+  const result = await db.query(query, [nombre, email, id]);
+  return result.rows[0];
+};
+
+//Eliminar un usuario de la base de datos por su ID.
+
+const deleteUser = async (id) => {
+  const query = 'DELETE FROM users WHERE id = $1';
+  const result = await db.query(query, [id]);
+  return result.rowCount > 0; // Retorna true si se eliminó algo
+};
+
 module.exports = {
   findByEmail,
-  createUser
+  createUser,
+  updateUser,
+  deleteUser
 };

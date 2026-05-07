@@ -1,4 +1,5 @@
 const petModel = require('../models/petModel');
+const db = require('../config/database'); 
 
 // ==========================================
 // Obtener todas las mascotas (GET /api/pets)
@@ -22,26 +23,18 @@ const getAll = async (req, res) => {
 // ==========================================
 const create = async (req, res) => {
   try {
-    // Extraer datos del body (Mapeando la "ubicación" solicitada al campo "descripcion" 
-    // o usando "raza" / "edad" que fueron definidos en nuestra tabla base).
     const { nombre, especie, raza = '', edad = '', descripcion = '', ubicacion, imagen_url = '' } = req.body;
-    
-    // Extraer el usuario autenticado que viene inyectado desde authMiddleware
     const usuario_id = req.user.id;
 
-    // Validación básica de campos requeridos
     if (!nombre || !especie) {
       return res.status(400).json({ error: 'Los campos nombre y especie son obligatorios' });
     }
 
-    // Si se envía 'ubicacion', podemos concatenarla a la descripción para no perder el dato,
-    // dado que 'ubicacion' no está en la tabla SQL original del init.sql
     let finalDescription = descripcion;
     if (ubicacion) {
       finalDescription += `\nUbicación: ${ubicacion}`;
     }
 
-    // Guardar en la base de datos
     const newPet = await petModel.create(
       nombre, 
       especie, 
@@ -63,7 +56,42 @@ const create = async (req, res) => {
   }
 };
 
+// ==========================================
+// Actualizar reporte (PUT /api/pets/:id) 
+// =========================================
+const updatePet = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nombre, especie, raza, edad, descripcion, estado } = req.body;
+
+    // 1. Validar autoría del reporte
+    const petQuery = await db.query('SELECT usuario_id FROM pets WHERE id = $1', [id]);
+    const pet = petQuery.rows[0];
+
+    if (!pet) return res.status(404).json({ error: 'Mascota no encontrada' });
+
+    if (pet.usuario_id !== req.user.id) {
+      return res.status(403).json({ error: 'No tienes permiso para editar este reporte.' });
+    }
+
+    // 2. Ejecutar actualización
+    const updated = await petModel.updatePet(id, { 
+      nombre, especie, raza, edad, descripcion, estado 
+    });
+
+    res.json({
+      status: 'success',
+      message: 'Reporte actualizado correctamente',
+      data: updated
+    });
+  } catch (error) {
+    console.error('Error en petController.updatePet:', error);
+    res.status(500).json({ error: 'Error interno al actualizar mascota' });
+  }
+};
+
 module.exports = {
   getAll,
-  create
+  create,
+  updatePet
 };

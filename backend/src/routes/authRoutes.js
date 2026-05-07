@@ -13,5 +13,6 @@ router.post('/register', authController.register);
 // Endpoint para iniciar sesión
 // POST /api/auth/login
 router.post('/login', authController.login);
+router.get('/check-email/:email', authController.checkEmail);
 
 module.exports = router;

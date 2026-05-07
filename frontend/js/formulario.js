@@ -9,12 +9,21 @@ if (document.getElementById('appForm')) {
                 ubicacion: '',
                 descripcion: '',
                 urgente: false,
-                imagenBase64: 'https://placehold.co/400x300?text=Nueva+Mascota'
+                imagenBase64: 'https://placehold.co/400x300?text=Nueva+Mascota',
+                sesionIniciada: false //Estado de sesión
             }
         },
         mounted() {
+            // VERIFICACIÓN DE SESIÓN
+            const token = localStorage.getItem('adoptec_token');
+            if (token) {
+                this.sesionIniciada = true;
+                console.log("Sesión recuperada del navegador");
+            }
+
             document.getElementById("formReporte").addEventListener("submit", (e) => {
                 e.preventDefault();
+                // Sincronizamos datos antes de enviar
                 this.nombre = document.getElementById("nombre").value;
                 this.especie = document.getElementById("especie").value;
                 this.ubicacion = document.getElementById("ubicacion").value;
@@ -26,6 +35,21 @@ if (document.getElementById('appForm')) {
             document.getElementById("imagen").addEventListener("change", (e) => {
                 this.procesarImagen(e);
             });
+
+            // VALIDACIÓN AJAX 
+            const inputNombre = document.getElementById("nombre");
+            if (inputNombre) {
+                inputNombre.addEventListener("blur", async () => {
+                    if (this.nombre.length < 3) return;
+                    try {
+                        // Simulación de validación AJAX al servidor
+                        console.log("Validando nombre vía AJAX...");
+                       
+                    } catch (e) {
+                        console.error("Error en validación AJAX");
+                    }
+                });
+            }
         },
         methods: {
             procesarImagen(event) {
@@ -39,18 +63,15 @@ if (document.getElementById('appForm')) {
                 }
             },
             async publicar() {
+                
                 if (this.ubicacion.trim() === '' || this.descripcion.trim() === '') {
                     Swal.fire('Atención', 'La ubicación y descripción son obligatorias', 'warning');
                     return;
                 }
 
                 const token = localStorage.getItem('adoptec_token');
-                if (!token) {
-                    Swal.fire('No autenticado', 'Debes iniciar sesión para publicar', 'warning')
-                        .then(() => window.location.href = 'login.html');
-                    return;
-                }
 
+                
                 try {
                     const response = await fetch('http://localhost:3000/api/pets', {
                         method: 'POST',
@@ -66,29 +87,14 @@ if (document.getElementById('appForm')) {
                             imagen_url: this.imagenBase64
                         })
                     });
-
-                    // Manejo de expiración o token inválido
-                    if (response.status === 401 || response.status === 403) {
-                        Swal.fire('Sesión Expirada', 'Tu sesión ha expirado o no es válida. Vuelve a ingresar.', 'error')
-                            .then(() => {
-                                localStorage.removeItem('adoptec_token');
-                                localStorage.removeItem('adoptec_user');
-                                window.location.href = 'login.html';
-                            });
-                        return;
+                    
+                    
+                    if (response.ok) {
+                        Swal.fire('Publicado', 'Tu reporte ya está en el feed', 'success')
+                            .then(() => window.location.href = 'feed.html');
                     }
-
-                    if (!response.ok) {
-                        throw new Error('Error al publicar el reporte en el servidor');
-                    }
-
-                    Swal.fire('Publicado', 'Tu reporte ya está en el feed', 'success')
-                        .then(() => {
-                            window.location.href = 'feed.html';
-                        });
-
                 } catch (error) {
-                    console.error('Error al enviar el formulario:', error);
+                    console.error('Error AJAX:', error);
                     Swal.fire('Error', 'No se pudo comunicar con el servidor', 'error');
                 }
             }

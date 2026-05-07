@@ -9,25 +9,20 @@ const register = async (req, res) => {
   try {
     const { nombre, email, password } = req.body;
 
-    // 1. Validación básica
     if (!nombre || !email || !password) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios: nombre, email, password' });
     }
 
-    // 2. Verificar si el usuario ya existe
     const existingUser = await userModel.findByEmail(email);
     if (existingUser) {
       return res.status(409).json({ error: 'El email ya está registrado' });
     }
 
-    // 3. Cifrar la contraseña
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    // 4. Guardar en la base de datos
     const newUser = await userModel.createUser(nombre, email, passwordHash);
 
-    // 5. Responder
     res.status(201).json({
       message: 'Usuario registrado exitosamente',
       user: newUser
@@ -39,7 +34,6 @@ const register = async (req, res) => {
   }
 };
 
-
 // ==========================================
 // Función para Hacer Login
 // ==========================================
@@ -47,24 +41,20 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Validación básica
     if (!email || !password) {
       return res.status(400).json({ error: 'Email y contraseña son obligatorios' });
     }
 
-    // 2. Buscar usuario en BD
     const user = await userModel.findByEmail(email);
     if (!user) {
       return res.status(401).json({ error: 'Credenciales inválidas (usuario no encontrado)' });
     }
 
-    // 3. Verificar que la contraseña coincida con el hash
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ error: 'Credenciales inválidas (contraseña incorrecta)' });
     }
 
-    // 4. Generar el JWT
     const payload = {
       id: user.id,
       rol: user.rol
@@ -74,7 +64,6 @@ const login = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRES_IN || '24h'
     });
 
-    // 5. Responder con el token y datos públicos del usuario
     res.json({
       message: 'Login exitoso',
       token: token,
@@ -92,7 +81,22 @@ const login = async (req, res) => {
   }
 };
 
+// ===========================
+// Validación AJAX de Email
+// ==========================
+const checkEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const user = await userModel.findByEmail(email);
+    // Retorna true si ya existe, false si está disponible
+    res.json({ exists: !!user });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al verificar disponibilidad de email' });
+  }
+};
+
 module.exports = {
   register,
-  login
+  login,
+  checkEmail 
 };

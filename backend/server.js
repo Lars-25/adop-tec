@@ -36,7 +36,11 @@ app.use('/api/auth', authRoutes);
 
 // Rutas de Mascotas
 const petRoutes = require('./src/routes/petRoutes');
-app.use('/api/pets', petRoutes);
+app.use('/api/pets', petRoutes); 
+
+// Rutas de Usuarios
+const userRoutes = require('./src/routes/userRoutes');
+app.use('/api/users', userRoutes);
 
 // Ruta de prueba (Health Check)
 app.get('/api/health', async (req, res) => {
