@@ -129,21 +129,10 @@ vite.config.ts.timestamp-*
 # =======================================================
 
 # Archivos de configuración de dependencias (NPM/Yarn/Bun)
-package.json
 package-lock.json
 yarn.lock
 bun.lockb
 .npmrc
-
-# Configuraciones de frameworks y empaquetadores (Vite, Vue, JS/TS)
-vite.config.js
-vite.config.ts
-vue.config.js
-jsconfig.json
-tsconfig.json
-tsconfig.node.json
-babel.config.js
-postcss.config.js
 
 # Carpetas de compilación o salida de Vite/Vue
 dist/
