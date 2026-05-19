@@ -1,3 +1,21 @@
+function tiempoTranscurrido(fechaBD) {
+    const fecha = new Date(fechaBD);
+    const ahora = new Date();
+    const segundos = Math.floor((ahora - fecha) / 1000);
+
+    if (segundos < 60) return "hace unos segundos";
+    const minutos = Math.floor(segundos / 60);
+    if (minutos < 60) return `hace ${minutos} minuto${minutos !== 1 ? 's' : ''}`;
+    const horas = Math.floor(minutos / 60);
+    if (horas < 24) return `hace ${horas} hora${horas !== 1 ? 's' : ''}`;
+    const dias = Math.floor(horas / 24);
+    if (dias < 30) return `hace ${dias} día${dias !== 1 ? 's' : ''}`;
+    const meses = Math.floor(dias / 30);
+    if (meses < 12) return `hace ${meses} mes${meses !== 1 ? 'es' : ''}`;
+    const anios = Math.floor(meses / 12);
+    return `hace ${anios} año${anios !== 1 ? 's' : ''}`;
+}
+
 const { createApp } = Vue;
 
 if (document.getElementById('appFeed')) {
@@ -22,6 +40,22 @@ if (document.getElementById('appFeed')) {
             document.getElementById("cerrarModal").onclick = () => {
                 document.getElementById("modal").style.display = "none";
             };
+
+            // CAMPANA DE NOTIFICACIONES
+            const btnNotif = document.getElementById("btnNotificaciones");
+            if (btnNotif) {
+                btnNotif.addEventListener("click", () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sin notificaciones',
+                        text: 'No tienes alertas nuevas en este momento.',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                });
+            }
         },
         computed: {
             mascotasFiltradas() {
@@ -32,14 +66,14 @@ if (document.getElementById('appFeed')) {
 
                 return filtradas.map(m => ({
                     ...m,
-                    tiempoFormat: calcularTiempo(m.fecha_reporte || m.fecha || new Date().toISOString())
+                    tiempoFormat: tiempoTranscurrido(m.fecha_reporte || m.fecha || new Date().toISOString())
                 }));
             }
         },
         methods: {
             async cargarMascotas() {
                 try {
-                    const response = await fetch('http://localhost:3000/api/pets');
+                    const response = await fetch('https://localhost:3000/api/pets');
                     const data = await response.json();
                     
                     if (data.status === 'success') {
@@ -79,30 +113,27 @@ if (document.getElementById('appFeed')) {
                 document.getElementById(btnId).classList.add("chip--active");
 
                 this.mascotasFiltradas.forEach(perrito => {
-                    const card = document.createElement("article");
+                    const card = document.createElement("pet-card");
                     card.className = "pet-card";
 
                     const imagen = perrito.imagen_url || perrito.img || 'https://placehold.co/400x300?text=Sin+Imagen';
 
-                    card.innerHTML = `
-                        <img src="${imagen}" alt="Mascota" class="pet-card__img">
-                        <div class="pet-card__body">
-                            <h3 class="pet-card__title">${perrito.nombre}</h3>
-                            <div class="pet-card__meta">
-                                <i class='bx bx-map'></i> ${perrito.ubicacion || 'Local'}
-                            </div>
-                            <div class="pet-card__meta">
-                                <i class='bx bx-time'></i> ${perrito.tiempoFormat}
-                            </div>
-                            <button class="pet-card__btn">Ver detalles</button>
-                        </div>
-                    `;
+                    // Pasamos la data a través de atributos al Web Component
+                    card.setAttribute("data-nombre", perrito.nombre);
+                    card.setAttribute("data-img", imagen);
+                    card.setAttribute("data-ubicacion", perrito.ubicacion || 'Local');
+                    card.setAttribute("data-tiempo", perrito.tiempoFormat || '');
 
-                    card.querySelector("button").onclick = () => {
-                        this.abrirDetalles(perrito);
-                    };
-
+                    // Primero lo inyectamos al DOM (esto dispara connectedCallback en components.js)
                     container.appendChild(card);
+
+                    // Ahora que el componente dibujó el botón interno, agregamos el evento
+                    const btn = card.querySelector("button");
+                    if (btn) {
+                        btn.onclick = () => {
+                            this.abrirDetalles(perrito);
+                        };
+                    }
                 });
             }
         }

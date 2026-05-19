@@ -95,8 +95,19 @@ const checkEmail = async (req, res) => {
   }
 };
 
+const checkUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await userModel.findByNombre(username);
+    res.json({ exists: !!user });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al verificar disponibilidad de nombre de usuario' });
+  }
+};
+
 module.exports = {
   register,
   login,
-  checkEmail 
+  checkEmail,
+  checkUsername
 };

@@ -15,6 +15,44 @@ if (document.getElementById('appLogin')) {
                 this.password = document.getElementById("password").value;
                 this.iniciarSesion();
             });
+
+            // VALIDACIÓN AJAX EN VIVO
+            const emailInput = document.getElementById("email");
+            const submitBtn = document.querySelector("#loginForm button[type='submit']");
+            
+            if (emailInput) {
+                emailInput.addEventListener("blur", async (e) => {
+                    const emailVal = e.target.value.trim();
+                    if (!emailVal) return;
+
+                    try {
+                        const response = await fetch(`https://localhost:3000/api/auth/check-email/${encodeURIComponent(emailVal)}`);
+                        const data = await response.json();
+
+                        // Flujo de Login
+                        if (!data.exists) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Aviso',
+                                text: 'Este correo no parece estar registrado.',
+                                toast: true,
+                                position: 'bottom-end',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = "1";
+                    } catch (error) {
+                        console.error('Error AJAX check-email:', error);
+                    }
+                });
+
+                emailInput.addEventListener("input", () => {
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = "1";
+                });
+            }
         },
         methods: {
             async iniciarSesion() {
@@ -28,7 +66,7 @@ if (document.getElementById('appLogin')) {
                 }
 
                 try {
-                    const response = await fetch('http://localhost:3000/api/auth/login', {
+                    const response = await fetch('https://localhost:3000/api/auth/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

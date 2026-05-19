@@ -1,3 +1,6 @@
+// Activa el Modo Oscuro automáticamente al navegar
+if(localStorage.getItem('darkMode') === 'true') { document.body.classList.add('dark-theme'); }
+
 const DB_INICIAL = {
     sesionActiva: null, 
     mascotas: [

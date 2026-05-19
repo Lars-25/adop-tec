@@ -22,8 +22,8 @@ app.use(cors({
 }));
 
 // Parseo de body a JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
 // ==========================================
@@ -41,6 +41,10 @@ app.use('/api/pets', petRoutes);
 // Rutas de Usuarios
 const userRoutes = require('./src/routes/userRoutes');
 app.use('/api/users', userRoutes);
+
+// Rutas de Finanzas
+const financeRoutes = require('./src/routes/financeRoutes');
+app.use('/api/finanzas', financeRoutes);
 
 // Ruta de prueba (Health Check)
 app.get('/api/health', async (req, res) => {
@@ -76,6 +80,17 @@ try {
   
   server = https.createServer(options, app);
   console.log('🔒 Certificados HTTPS cargados correctamente.');
+  
+  // Redirigir tráfico HTTP a HTTPS
+  const HTTP_PORT = process.env.HTTP_PORT || 8080;
+  http.createServer((req, res) => {
+    const host = req.headers.host ? req.headers.host.replace(/:\d+$/, `:${PORT}`) : `localhost:${PORT}`;
+    res.writeHead(301, { "Location": "https://" + host + req.url });
+    res.end();
+  }).listen(HTTP_PORT, () => {
+    console.log(`↪️ Servidor HTTP en puerto ${HTTP_PORT} redirigiendo a HTTPS.`);
+  });
+
 } catch (error) {
   console.warn('⚠️ No se encontraron certificados HTTPS en backend/cert. El servidor arrancará en HTTP puro (No recomendado para MercadoPago).');
   // Caída a HTTP si no hay certificados

@@ -105,4 +105,76 @@ a { text-decoration: none; } ul { list-style: none; }
     .hero { text-align: center; }
     .hero__title { font-size: 2.2rem; }
     .hero__actions { justify-content: center; }
+}/* ========================================= */
+/* 1. INPUT DE FOTOGRAFÍA (DRAG & DROP)      */
+/* ========================================= */
+.file-upload-wrapper {
+    position: relative;
+    width: 100%;
 }
+.file-upload-input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: #475569;
+    background-size: cover;
+    background-position: center;
+}
+.file-upload-label:hover {
+    background-color: #f1f5f9;
+    border-color: #3b82f6;
+}
+
+/* ========================================= */
+/* 2. MODO OSCURO (DARK THEME NATIVO)        */
+/* ========================================= */
+:root {
+    --bg-color: #f1f5f9;
+    --text-color: #334155;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+}
+
+body.dark-theme {
+    --bg-color: #0f172a;
+    --text-color: #f8fafc;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+}
+
+body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease; }
+.card, .auth-card, .nav-bar, .bottom-nav, .modal-content { 
+    background-color: var(--card-bg); color: var(--text-color); border-color: var(--border-color); transition: background-color 0.3s ease;
+}
+.dark-theme .text-muted { color: #94a3b8 !important; }
+.dark-theme .form-input { background-color: #0f172a; color: #fff; border-color: #334155; }
+
+/* ========================================= */
+/* 3. SWITCH (TOGGLE) PARA CONFIGURACIÓN     */
+/* ========================================= */
+.switch { position: relative; display: inline-block; width: 40px; height: 22px; margin-bottom: 0;}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: #3b82f6; }
+input:checked + .slider:before { transform: translateX(18px); }
+.slider.round { border-radius: 22px; }
+.slider.round:before { border-radius: 50%; }
+
+.dark-theme .header, .dark-theme .nav-bar, .dark-theme .top-bar, .dark-theme .header-camp, .dark-theme .pet-card, .dark-theme .pet-card__body, .dark-theme .profile-header, .dark-theme .card { background-color: var(--card-bg) !important; color: var(--text-color) !important; }

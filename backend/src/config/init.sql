@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS pets (
   edad VARCHAR(50),
   estado VARCHAR(50) DEFAULT 'En adopción',
   descripcion TEXT,
+  ubicacion VARCHAR(255),
+  urgente BOOLEAN DEFAULT false,
   imagen_url VARCHAR(255),
   usuario_id UUID REFERENCES users(id) ON DELETE SET NULL,
   fecha_reporte TIMESTAMP DEFAULT CURRENT_TIMESTAMP

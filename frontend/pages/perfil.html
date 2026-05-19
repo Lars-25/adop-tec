@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/theme.js"></script>
 </head>
 <body>
 
@@ -17,11 +18,19 @@
 
 <main class="profile container" id="appPerfil">
     <header class="profile-header">
-        <div class="profile-header__avatar mb-3">
-            <i class='bx bx-user'></i>
+        <div class="profile-header__avatar mb-3" style="position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+            <div class="file-upload-wrapper" style="width: 80px; height: 80px;">
+                <input id="avatarInput" type="file" accept="image/*" class="file-upload-input" disabled>
+                <label for="avatarInput" class="file-upload-label" id="avatarPreviewLabel" style="width: 100%; height: 100%; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #e2e8f0;">
+                    <i class='bx bx-user' id="avatarIcon" style="font-size: 2.5rem; color: #94a3b8;"></i>
+                </label>
+            </div>
         </div>
-        <h2 id="nombreUsuario" class="profile-header__name">Usuario</h2>
+        <h2 id="nombreUsuario" class="profile-header__name" style="min-height: 30px;">Usuario</h2>
         <p id="rolUsuario" class="text-muted">---</p>
+        <button id="btnEditarPerfil" class="btn btn--outline" style="padding: 4px 12px; margin-top: 10px; font-size: 0.8rem; border-radius: 20px;">
+            <i class='bx bx-pencil'></i> Editar Perfil
+        </button>
     </header>
 
     <div class="stats mb-4">
@@ -37,32 +46,200 @@
 
     <div class="profile-menu">
         <a href="#" id="btnHistorial" class="profile-menu__link">
-            <i class='bx bx-heart text-primary'></i> Ver Historial de Donaciones
+            <i class='bx bx-heart text-primary'></i> <span data-i18n="profile.history">Ver Historial de Donaciones</span>
         </a>
-        <a href="#" class="profile-menu__link">
-            <i class='bx bx-cog text-primary'></i> Configuración
+        <a href="#" class="profile-menu__link" style="justify-content: space-between; cursor: default;">
+            <div><i class='bx bx-moon text-primary'></i> <span data-i18n="profile.darkmode">Modo Oscuro</span></div>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider round"></span>
+            </label>
+        </a>
+        <a href="#" class="profile-menu__link" style="justify-content: space-between; cursor: default;">
+            <div><i class='bx bx-world text-primary'></i> Idioma / Language</div>
+            <select id="langToggle" class="form-input" style="width: auto; padding: 2px 10px; min-height: 30px;">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+            </select>
         </a>
         <a href="#" id="btnLogout" class="profile-menu__link profile-menu__link--danger">
-            <i class='bx bx-log-out'></i> Cerrar Sesión
+            <i class='bx bx-log-out'></i> <span data-i18n="profile.logout">Cerrar Sesión</span>
         </a>
     </div>
 
     <div style="text-align: center; margin: 2rem 0;">
         <a href="formulario-mascota.html" class="btn btn--primary" style="width: auto; border-radius: 50px;">
-            <i class='bx bx-plus-circle'></i> Publicar Ayuda / Reporte
+            <i class='bx bx-plus-circle'></i> <span data-i18n="profile.report">Publicar Ayuda / Reporte</span>
         </a>
+    </div>
+
+    <div v-if="usuario.rol === 'admin'" class="admin-panel mt-4" style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+            <h3 style="margin: 0;"><i class='bx bx-group'></i> Gestión de Usuarios</h3>
+            <button @click="crearUsuario()" class="btn btn--primary" style="padding: 6px 15px; border-radius: 6px; font-size: 0.9rem;">
+                <i class='bx bx-user-plus'></i> Crear Nuevo Usuario
+            </button>
+        </div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th style="padding: 10px;">ID</th>
+                        <th style="padding: 10px;">Nombre</th>
+                        <th style="padding: 10px;">Correo</th>
+                        <th style="padding: 10px;">Rol</th>
+                        <th style="padding: 10px; text-align: center;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in allUsers" :key="user.id" style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px;">{{ user.id }}</td>
+                        <td style="padding: 10px;">{{ user.nombre }}</td>
+                        <td style="padding: 10px;">{{ user.email }}</td>
+                        <td style="padding: 10px;">
+                            <select class="form-input" style="padding: 4px; font-size: 0.9rem;" v-model="user.rol" @change="cambiarRol(user)">
+                                <option value="user">Usuario</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </td>
+                        <td style="padding: 10px; text-align: center;">
+                            <button @click="editarUsuario(user)" class="btn" style="border: 1px solid #3b82f6; color: #3b82f6; background: transparent; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; margin-right: 5px;">
+                                <i class='bx bx-edit'></i> Editar
+                            </button>
+                            <button @click="eliminarUsuario(user.id)" class="btn" style="background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem;">
+                                <i class='bx bx-trash'></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- GESTIÓN DE MASCOTAS -->
+    <div v-if="usuario.rol === 'admin'" class="admin-panel mt-4" style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+            <h3 style="margin: 0;"><i class='bx bx-paw'></i> Gestión de Mascotas</h3>
+        </div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th style="padding: 10px;">Foto</th>
+                        <th style="padding: 10px;">Nombre</th>
+                        <th style="padding: 10px;">Especie</th>
+                        <th style="padding: 10px;">Ubicación</th>
+                        <th style="padding: 10px; text-align: center;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pet in allPets" :key="pet.id" style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px;">
+                            <img :src="pet.imagen_url || pet.img || 'https://placehold.co/100x100?text=Sin+Imagen'" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                        </td>
+                        <td style="padding: 10px;">{{ pet.nombre }}</td>
+                        <td style="padding: 10px; text-transform: capitalize;">{{ pet.especie }}</td>
+                        <td style="padding: 10px;">{{ pet.ubicacion }}</td>
+                        <td style="padding: 10px; text-align: center;">
+                            <button @click="editarMascota(pet)" class="btn" style="border: 1px solid #3b82f6; color: #3b82f6; background: transparent; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; margin-right: 5px;">
+                                <i class='bx bx-edit'></i> Editar
+                            </button>
+                            <button @click="eliminarMascota(pet.id)" class="btn" style="background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.9rem;">
+                                <i class='bx bx-trash'></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PANEL FINANCIERO -->
+    <div v-if="usuario.rol === 'admin'" class="admin-panel mt-4" style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+            <h3 style="margin: 0;"><i class='bx bx-wallet'></i> Panel Financiero</h3>
+            <button @click="registrarGasto()" class="btn btn--primary" style="padding: 6px 15px; border-radius: 6px; font-size: 0.9rem;">
+                <i class='bx bx-plus'></i> Registrar Nuevo Gasto
+            </button>
+        </div>
+        
+        <div class="stats mb-4" style="grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="stats__item" style="background-color: rgba(16, 185, 129, 0.1); border: 1px solid #10b981;">
+                <span class="stats__number" style="color: #10b981;">${{ totalRecaudadoAdmin }}</span>
+                <span class="stats__label">Total Recaudado</span>
+            </div>
+            <div class="stats__item" style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444;">
+                <span class="stats__number" style="color: #ef4444;">${{ totalGastadoAdmin }}</span>
+                <span class="stats__label">Total Gastado</span>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            <!-- Tabla de Donaciones -->
+            <div>
+                <h4 style="margin-bottom: 10px; color: #10b981;"><i class='bx bx-up-arrow-circle'></i> Últimas Donaciones</h4>
+                <div style="background: var(--bg-color); border-radius: 8px; max-height: 250px; overflow-y: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background: var(--bg-color);">
+                                <th style="padding: 8px;">Fecha</th>
+                                <th style="padding: 8px;">Usuario</th>
+                                <th style="padding: 8px;">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="donacion in allDonaciones" :key="donacion.id" style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: 8px;">{{ new Date(donacion.fecha).toLocaleDateString() }}</td>
+                                <td style="padding: 8px;">{{ donacion.usuario_nombre || donacion.usuario_email || 'Anónimo' }}</td>
+                                <td style="padding: 8px; color: #10b981; font-weight: 600;">+${{ donacion.monto }}</td>
+                            </tr>
+                            <tr v-if="allDonaciones.length === 0">
+                                <td colspan="3" style="padding: 8px; text-align: center; color: #64748b;">No hay donaciones registradas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabla de Gastos -->
+            <div>
+                <h4 style="margin-bottom: 10px; color: #ef4444;"><i class='bx bx-down-arrow-circle'></i> Registro de Gastos</h4>
+                <div style="background: var(--bg-color); border-radius: 8px; max-height: 250px; overflow-y: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background: var(--bg-color);">
+                                <th style="padding: 8px;">Fecha</th>
+                                <th style="padding: 8px;">Concepto</th>
+                                <th style="padding: 8px;">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="gasto in allGastos" :key="gasto.id" style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: 8px;">{{ new Date(gasto.fecha).toLocaleDateString() }}</td>
+                                <td style="padding: 8px;">{{ gasto.concepto }}</td>
+                                <td style="padding: 8px; color: #ef4444; font-weight: 600;">-${{ gasto.monto }}</td>
+                            </tr>
+                            <tr v-if="allGastos.length === 0">
+                                <td colspan="3" style="padding: 8px; text-align: center; color: #64748b;">No hay gastos registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
 <nav class="bottom-nav">
     <a href="feed.html" class="nav-item">
-        <i class='bx bx-home-alt-2'></i> Feed
+        <i class='bx bx-home-alt-2'></i> <span data-i18n="nav.home">Feed</span>
     </a>
     <a href="donaciones.html" class="nav-item">
-        <i class='bx bx-donate-heart'></i> Donar
+        <i class='bx bx-donate-heart'></i> <span data-i18n="nav.donate">Donar</span>
     </a>
     <a href="perfil.html" class="nav-item nav-item--active">
-        <i class='bx bx-user'></i> Perfil
+        <i class='bx bx-user'></i> <span data-i18n="nav.profile">Perfil</span>
     </a>
 </nav>
 
@@ -70,5 +247,6 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="../js/store.js"></script>
 <script src="../js/perfil.js"></script>
+<script src="../js/i18n.js"></script>
 </body>
 </html>

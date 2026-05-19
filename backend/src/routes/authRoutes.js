@@ -14,5 +14,6 @@ router.post('/register', authController.register);
 // POST /api/auth/login
 router.post('/login', authController.login);
 router.get('/check-email/:email', authController.checkEmail);
+router.get('/check-username/:username', authController.checkUsername);
 
 module.exports = router;

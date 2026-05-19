@@ -16,4 +16,12 @@ router.get('/', petController.getAll);
 // Inyectamos el authMiddleware antes del controlador
 router.post('/', authMiddleware, petController.create);
 
+// Endpoint para actualizar un reporte de mascota (Protegido)
+// PUT /api/pets/:id
+router.put('/:id', authMiddleware, petController.updatePet);
+
+// Endpoint para eliminar un reporte de mascota (Protegido)
+// DELETE /api/pets/:id
+router.delete('/:id', authMiddleware, petController.deletePet);
+
 module.exports = router;

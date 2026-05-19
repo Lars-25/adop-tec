@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/theme.js"></script>
 </head>
 <body>
 <div id="appDonaciones">
@@ -19,15 +20,36 @@
     </header>
 
     <main class="container">
-        <section class="card">
-            <h2 class="card__title">Estado de la Meta</h2>
-            <div class="progress-wrapper mb-3" style="background: #E9ECEF; height: 20px; border-radius: 10px;">
-                <div id="barraProgreso" style="height: 100%; border-radius: 10px;"></div>
+        <section class="card mb-4 text-center">
+            <h2 class="card__title">Apoya a la Clínica del ITM</h2>
+            <p class="text-muted mb-3" style="font-size: 0.9rem;">Tus aportaciones salvan vidas de mascotas rescatadas.</p>
+            
+            <div class="mb-4">
+                <p id="metaTexto" class="text-center mb-2" style="font-size: 0.9rem;"></p>
+                <div style="background-color: #e9ecef; border-radius: 8px; height: 12px; overflow: hidden;">
+                    <div id="barraProgreso" style="height: 100%; width: 0%;"></div>
+                </div>
             </div>
-            <p id="metaTexto"></p>
-            <form id="formDonacion" style="margin-top: 1rem;">
-                <input type="number" id="montoDonacion" class="form-input mb-3" placeholder="Monto a donar ($)" required>
-                <button type="submit" class="btn btn--primary">Registrar mi donación</button>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 1.5rem;">
+                <button class="btn btn--outline" onclick="document.getElementById('montoDonacion').value=50; document.getElementById('montoDonacion').focus();" style="flex: 1;">$50</button>
+                <button class="btn btn--outline" onclick="document.getElementById('montoDonacion').value=100; document.getElementById('montoDonacion').focus();" style="flex: 1;">$100</button>
+                <button class="btn btn--outline" onclick="document.getElementById('montoDonacion').value=500; document.getElementById('montoDonacion').focus();" style="flex: 1;">$500</button>
+            </div>
+            
+            <form id="formDonacion">
+                <input type="number" id="montoDonacion" class="form-input mb-3" placeholder="Otro monto ($)" min="10" required>
+                
+                <button type="button" id="btnMercadoPago" class="btn w-100 mb-3" style="background-color: #009EE3; color: white; border:none; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class='bx bxs-credit-card'></i> Donar con Mercado Pago
+                </button>
+                
+                <button type="submit" id="btnDonarDemo" class="btn w-100 mb-3" style="background-color: #28a745; color: white; border:none; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class='bx bx-check-double'></i> Donar (Modo Demo)
+                </button>
+                
+                <button type="button" id="btnTransferencia" class="btn btn--outline w-100" style="display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class='bx bx-transfer'></i> Transferencia o Efectivo
+                </button>
             </form>
         </section>
 
@@ -42,19 +64,25 @@
             <h2 class="card__title mb-3">Registrar Gasto (Admin)</h2>
             <form id="formGasto">
                 <div class="form-group">
-                    <label class="form-group__label">Concepto</label>
-                    <select id="conceptoGasto" class="form-control">
+                    <label class="form-label">Concepto</label>
+                    <select id="conceptoGasto" class="form-input">
                         <option>Medicamentos</option>
                         <option>Alimento</option>
                         <option>Material Curación</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-group__label">Comprobante</label>
-                    <input type="file" name="comprobante" class="form-control" style="background: white;" required>
+                    <label class="form-label">Comprobante</label>
+                    <div class="file-upload-wrapper">
+                        <input id="comprobanteGasto" type="file" accept="image/*,application/pdf" class="file-upload-input" required>
+                        <label for="comprobanteGasto" class="file-upload-label" id="comprobantePreviewLabel" style="padding: 20px;">
+                            <i class='bx bx-cloud-upload' style="font-size: 2rem; color: #a0aec0;"></i>
+                            <span id="comprobanteTexto" style="margin-top: 8px;">Haz clic para subir comprobante</span>
+                        </label>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn--danger w-100">
-                    <i class='bx bx-cloud-upload'></i> Subir Evidencia
+                    <i class='bx bx-check-circle'></i> Registrar Gasto
                 </button>
             </form>
         </section>
@@ -62,13 +90,13 @@
 
     <nav class="bottom-nav">
         <a href="feed.html" class="nav-item">
-            <i class='bx bx-home-alt-2'></i> Feed
+            <i class='bx bx-home-alt-2'></i> <span data-i18n="nav.home">Feed</span>
         </a>
         <a href="donaciones.html" class="nav-item nav-item--active">
-            <i class='bx bx-donate-heart'></i> Donar
+            <i class='bx bx-donate-heart'></i> <span data-i18n="nav.donate">Donar</span>
         </a>
         <a href="perfil.html" class="nav-item">
-            <i class='bx bx-user'></i> Perfil
+            <i class='bx bx-user'></i> <span data-i18n="nav.profile">Perfil</span>
         </a>
     </nav>
 
@@ -78,5 +106,6 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="../js/store.js"></script>
 <script src="../js/donaciones.js"></script>
+<script src="../js/i18n.js"></script>
 </body>
 </html>
